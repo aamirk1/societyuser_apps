@@ -134,7 +134,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.99,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(4.0),
                   child: Center(
                     child: Column(
                       children: [
@@ -207,7 +207,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.32,
+                              height: MediaQuery.of(context).size.height * 0.30,
                               width: MediaQuery.of(context).size.width * 0.92,
                               child: SingleChildScrollView(
                                 child: DataTable(
@@ -256,7 +256,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                           thickness: 1,
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.14,
+                          height: MediaQuery.of(context).size.height * 0.10,
                           child: Row(children: [
                             Expanded(
                               child: SizedBox(
@@ -265,8 +265,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                   textAlign: TextAlign.justify,
                                   "Rupees $words Only",
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 10),
+                                      fontWeight: FontWeight.bold, fontSize: 10),
                                 ),
                               ),
                             ),
@@ -275,11 +274,65 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                               color: textColor,
                             ),
                             Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Column(
-                                  children: [
-                                    Row(
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Total",
+                                            style: TextStyle(fontSize: 9),
+                                          ),
+                                          Text(
+                                            "Previous Dues",
+                                            style: TextStyle(fontSize: 9),
+                                          ),
+                                          Text(
+                                            "Intrest On Dues",
+                                            style: TextStyle(fontSize: 9),
+                                          )
+                                        ],
+                                      ),
+                                      const Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(":",
+                                              style: TextStyle(fontSize: 9)),
+                                          Text(":",
+                                              style: TextStyle(fontSize: 9)),
+                                          Text(":",
+                                              style: TextStyle(fontSize: 9)),
+                                        ],
+                                      ),
+                                      Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Text(widget.billAmount,
+                                                style: const TextStyle(
+                                                    fontSize: 9)),
+                                            Text(widget.billAmount,
+                                                style: const TextStyle(
+                                                    fontSize: 9)),
+                                            Text(
+                                                "${widget.interest == '' ? 0 : widget.interest}",
+                                                style: const TextStyle(
+                                                    fontSize: 9)),
+                                          ]),
+                                      Divider(
+                                        color: textColor,
+                                        thickness: 1,
+                                      ),
+                                    ],
+                                  ),
+                                  Divider(color: textColor, thickness: 1),
+                                  Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
@@ -288,81 +341,32 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "Total",
-                                              style: TextStyle(fontSize: 10),
+                                              "Total Dues Amount: ",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 10),
                                             ),
-                                            Text(
-                                              "Previous Dues",
-                                              style: TextStyle(fontSize: 10),
-                                            ),
-                                            Text(
-                                              "Intrest On Dues",
-                                              style: TextStyle(fontSize: 10),
-                                            )
-                                          ],
-                                        ),
-                                        const Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(":"),
-                                            Text(":"),
-                                            Text(":"),
                                           ],
                                         ),
                                         Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              Text(widget.billAmount,
-                                                  style: const TextStyle(
-                                                      fontSize: 10)),
-                                              Text(widget.billAmount,
-                                                  style: const TextStyle(
-                                                      fontSize: 10)),
-                                              Text(
-                                                  "${widget.interest == '' ? 0 : widget.interest}",
-                                                  style: const TextStyle(
-                                                      fontSize: 10)),
-                                            ]),
-                                        Divider(
-                                          color: textColor,
-                                          thickness: 1,
-                                        ),
-                                      ],
-                                    ),
-                                    Divider(color: textColor, thickness: 1),
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "Total Dues Amount: ",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 10),
-                                              ),
-                                            ],
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              Text(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 2.0),
+                                              child: Text(
                                                 "${totalDues == '' ? 0 : totalDues}",
                                                 style: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12),
                                               ),
-                                            ],
-                                          ),
-                                        ])
-                                  ],
-                                ),
+                                            ),
+                                          ],
+                                        ),
+                                      ])
+                                ],
                               ),
                             ),
                           ]),
@@ -373,7 +377,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.99,
-                          // height: MediaQuery.of(context).size.height * 0.1,
+                          // height: MediaQuery.of(context).size.height * 0.05,
                           child: RichText(
                             textAlign: TextAlign.justify,
                             text: TextSpan(
@@ -382,7 +386,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                   text:
                                       'Please pay your dues on or before Due Date. Otherwise Simple interest @21%p.a. will be charged on Arrears. Please Pay by cross cheques or via NEFT only in favouring ',
                                   style:
-                                      TextStyle(fontSize: 10, color: textColor),
+                                      TextStyle(fontSize: 9, color: textColor),
                                 ),
                                 TextSpan(
                                   text: '$society_name',
@@ -395,7 +399,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                   text:
                                       ' and mention your flat number. If you have any descrepancy in the bill please contact society office.',
                                   style:
-                                      TextStyle(fontSize: 10, color: textColor),
+                                      TextStyle(fontSize: 9, color: textColor),
                                 )
                               ],
                             ),

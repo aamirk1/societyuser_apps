@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -98,9 +99,141 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.90,
                 height: MediaQuery.of(context).size.height * 0.08,
-                child: const Padding(
-                  padding: EdgeInsets.all(4.0),
-                  child: Text('pending'),
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton2<String>(
+                      isExpanded: true,
+                      hint: Text(
+                        'Select Complaint Type',
+                        style: TextStyle(
+                          color: textColor,
+                          fontSize: 10,
+                        ),
+                      ),
+                      items: widget.items
+                          .map((item) => DropdownMenuItem(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style:
+                                      TextStyle(fontSize: 14, color: textColor),
+                                ),
+                              ))
+                          .toList(),
+                      // value: selectedSocietyName,
+                      onChanged: (value) async {
+                        setState(() {
+                          complaintstypeController.text = value.toString();
+                          switch (value.toString()) {
+                            case 'House Keeping Complaint':
+                              _showDialog(
+                                  widget.application[0], saleController);
+                              break;
+                            case 'Security Issues':
+                              _showDialog(widget.application[1], gasController);
+                              break;
+                            case 'Parking Issue':
+                              _showDialog(
+                                  widget.application[2], electricController);
+                              break;
+                            case 'Admin Issue':
+                              _showDialog(
+                                  widget.application[3], passportController);
+                              break;
+                            case 'Accounts Issue':
+                              _showDialog(
+                                  widget.application[4], renovationController);
+                              break;
+                            case 'Vendor Complaints':
+                              _showDialog(
+                                  widget.application[5], giftController);
+                              break;
+                            case 'Water Related':
+                              _showDialog(
+                                  widget.application[6], bankController);
+                              break;
+                            case 'Leackage Related':
+                              _showDialog(
+                                  widget.application[7], bankController);
+                              break;
+                            case 'Pet Animals Related':
+                              _showDialog(
+                                  widget.application[8], bankController);
+                              break;
+                            case 'Others':
+                              _showDialog(
+                                  widget.application[9], bankController);
+                              break;
+                          }
+                        });
+                        setState(() {});
+                      },
+                      buttonStyleData: const ButtonStyleData(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                            border: Border(
+                                right: BorderSide(
+                                  color: Colors.grey,
+                                ),
+                                left: BorderSide(color: Colors.grey),
+                                top: BorderSide(color: Colors.grey),
+                                bottom: BorderSide(
+                                  color: Colors.grey,
+                                ))),
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        height: 40,
+                        width: 200,
+                      ),
+                      dropdownStyleData: const DropdownStyleData(
+                        maxHeight: 200,
+                      ),
+                      menuItemStyleData: const MenuItemStyleData(
+                        height: 40,
+                      ),
+                      dropdownSearchData: DropdownSearchData(
+                        searchController: complaintstypeController,
+                        searchInnerWidgetHeight: 50,
+                        searchInnerWidget: Container(
+                          height: 50,
+                          padding: const EdgeInsets.only(
+                            top: 8,
+                            bottom: 4,
+                            right: 8,
+                            left: 8,
+                          ),
+                          child: TextFormField(
+                            expands: true,
+                            maxLines: null,
+                            controller: complaintstypeController,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 8,
+                              ),
+                              hintText: 'Search Complaints Type',
+                              hintStyle: const TextStyle(fontSize: 10),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                        ),
+                        searchMatchFn: (item, searchValue) {
+                          return item.value.toString().contains(searchValue);
+                        },
+                      ),
+                      //This to clear the search value when you close the menu
+                      onMenuStateChange: (isOpen) {
+                        if (!isOpen) {
+                          complaintstypeController.clear();
+                        }
+                      },
+                    ),
+                  ),
                   // TypeAheadField(
                   //     textFieldConfiguration: TextFieldConfiguration(
                   //         controller: complaintstypeController,
@@ -230,7 +363,13 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
                               context,
                               complaintstypeController.text,
                               controller.text,
-                            );
+                            ).whenComplete(() {
+                              controller.clear();
+                              complaintstypeController.clear();
+                              complaintstypeController.text = '';
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            });
                           },
                           child: const Text(
                             'Submit',

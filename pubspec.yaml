@@ -53,6 +53,7 @@ dependencies:
   image_picker: 
  
   number_to_character: ^0.0.12
+  firebase_messaging: ^15.1.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

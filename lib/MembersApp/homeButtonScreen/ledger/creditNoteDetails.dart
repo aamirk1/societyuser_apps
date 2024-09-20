@@ -181,11 +181,11 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.45,
+                              height: MediaQuery.of(context).size.height * 0.35,
                               child: SingleChildScrollView(
                                 child: DataTable(
                                   dividerThickness: 0,
-                                  columnSpacing: 60,
+                                  columnSpacing: 50,
                                   columns: [
                                     DataColumn(
                                       label: Text(
@@ -251,7 +251,7 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                             // ),
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.all(10.0),
+                                padding: const EdgeInsets.all(5.0),
                                 child: Column(
                                   children: [
                                     Row(
@@ -291,7 +291,7 @@ class _CreditNoteDetailsState extends State<CreditNoteDetails> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.end,
                                             children: [
-                                              Text("${widget.amount}",
+                                              Text(widget.amount,
                                                   style: const TextStyle(
                                                       fontSize: 12,
                                                       fontWeight:

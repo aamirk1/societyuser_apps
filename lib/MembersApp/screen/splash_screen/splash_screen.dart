@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:societyuser_app/MembersApp/auth/login_page.dart';
 import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
@@ -61,7 +64,6 @@ class _SplashScreenState extends State<SplashScreen>
             .animate(_controller);
     _splitAppName();
     _startAnimation();
-
     super.initState();
   }
 
@@ -112,4 +114,6 @@ class _SplashScreenState extends State<SplashScreen>
       ),
     );
   }
+
+  
 }

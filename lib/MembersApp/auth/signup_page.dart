@@ -28,34 +28,11 @@ class _signUpState extends State<signUp> {
   String password = '';
   String confirmPassword = '';
   String errorMessage = "";
-  void validatePassword() {
-    final passwordValidator = Provider.of<PasswordValidator>(context);
-
-    if (passwordController.text != confirmPasswordController.text) {
-      // setState(() {
-      //   errorMessage = "Passwords do not match";
-      // });
-      passwordValidator.updateErrorMessage('Passwords do not match');
-    } else {
-      passwordValidator.updateErrorMessage('');
-      // setState(() {
-      //   errorMessage = '';
-      // });
-    }
-  }
-
-  bool _validatePassword(String password) {
-    return password.length >= 6 &&
-        password.contains(RegExp(r'[a-z]')) &&
-        password.contains(RegExp(r'[A-Z]')) &&
-        password.contains(RegExp(r'\d')) &&
-        password.contains(RegExp(r'[@$!%*?&]'));
-  }
 
   @override
   void dispose() {
     mobileController.dispose();
-    emailController.dispose();
+    // emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();
@@ -112,7 +89,7 @@ class _signUpState extends State<signUp> {
               child: Form(
                 key: _formKey,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     TextFormField(
                       keyboardType: TextInputType.number,
@@ -255,7 +232,7 @@ class _signUpState extends State<signUp> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter a password';
-                        } else if (value != password) {
+                        } else if (value != passwordValidator.password) {
                           return 'Passwords does not match';
                         }
 
@@ -292,14 +269,14 @@ class _signUpState extends State<signUp> {
                             ),
                           ),
                           onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              await storeUserData(
-                                  context,
-                                  mobileController.text,
-                                  emailController.text,
-                                  passwordController.text,
-                                  confirmPasswordController.text);
-                            }
+                            // if (_formKey.currentState!.validate()) {
+                            await storeUserData(
+                                context,
+                                mobileController.text,
+                                // emailController.text,
+                                passwordController.text,
+                                confirmPasswordController.text);
+                            // }
                           },
                           child: const Text(
                             'Sign Up',
@@ -336,14 +313,14 @@ class _signUpState extends State<signUp> {
     );
   }
 
-  Future<void> storeUserData(BuildContext context, String mobile, String email,
+  Future<void> storeUserData(BuildContext context, String mobile,
       String password, String confirmPassword) async {
-    final passwordValidator = Provider.of<PasswordValidator>(context);
+    // final passwordValidator = Provider.of<PasswordValidator>(context);
     try {
       // Create a new document in the "users" collection
       await firestore.collection('users').doc(mobile).set({
         'Mobile No.:': mobile,
-        'email': email,
+        // 'email': email,
         'password': password,
         'confirmPassword': confirmPassword
       });
@@ -355,15 +332,15 @@ class _signUpState extends State<signUp> {
         }),
         (route) => false,
       );
-      passwordValidator.updateErrorMessage('');
-      // setState(() {
-      //   errorMessage = '';
-      // });
+      // passwordValidator.updateErrorMessage('');
+      setState(() {
+        errorMessage = '';
+      });
     } on FirebaseException catch (e) {
-      passwordValidator.updateErrorMessage(e.message!);
-      // setState(() {
-      //   errorMessage = e.message!;
-      // });
+      // passwordValidator.updateErrorMessage(e.message!);
+      setState(() {
+        errorMessage = e.message!;
+      });
     }
   }
 }

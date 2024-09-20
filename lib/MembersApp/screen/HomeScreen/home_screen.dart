@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -36,6 +37,7 @@ List<dynamic> cols = [
 ];
 
 class _HomeScreenState extends State<HomeScreen> {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final SplashService _splashService = SplashService();
   final TextEditingController _societyNameController = TextEditingController();
   final TextEditingController statusController = TextEditingController();
@@ -79,7 +81,8 @@ class _HomeScreenState extends State<HomeScreen> {
         isLoading = false;
       });
     });
-
+    _requestPermission();
+    _configureFirebaseListeners();
     super.initState();
   }
 
@@ -166,11 +169,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.40,
+                        height: MediaQuery.of(context).size.height * 0.38,
 
                         // height: 20,
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(2.0),
                           child: Card(
                             elevation: 5,
                             shadowColor: Colors.grey,
@@ -185,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.all(4.0),
+                                      padding: EdgeInsets.all(2.0),
                                       child: Row(
                                         children: [
                                           Text(
@@ -369,6 +372,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     value!)
                                                 .whenComplete(() {
                                               isflatnoSelected = true;
+                                              storeFcmId();
                                               _loadData();
                                             });
                                           },
@@ -457,17 +461,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ],
                                 ),
                                 const SizedBox(
-                                  height: 5,
+                                  height: 2,
                                 ),
                                 isLoading
                                     ? const Padding(
-                                        padding: EdgeInsets.only(top: 40.0),
+                                        padding: EdgeInsets.only(top: 20.0),
                                         child: Center(
                                           child: CircularProgressIndicator(),
                                         ),
                                       )
                                     : Padding(
-                                        padding: const EdgeInsets.all(2.0),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 2.0),
                                         child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -495,7 +500,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       const SizedBox(
-                        height: 5,
+                        height: 2,
                       ),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -504,7 +509,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: MediaQuery.of(context).size.width *
                                   0.99, //add width and container on 270324
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(2.0),
                                 child: Card(
                                   elevation: 5,
                                   shadowColor: Colors.grey,
@@ -512,11 +517,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     borderRadius: BorderRadius.circular(5),
                                   ),
                                   child: DataTable(
-                                    columnSpacing: 155,
+                                    columnSpacing: 145,
                                     columns: [
                                       const DataColumn(
                                           label: Padding(
-                                        padding: EdgeInsets.all(8.0),
+                                        padding: EdgeInsets.all(2.0),
                                         child: Text(
                                           'Dues',
                                           style: TextStyle(
@@ -530,7 +535,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               : Text(
                                                   'Rs: ${value.grandTotalBillAmount}')),
                                     ],
-                                    dividerThickness: 2,
+                                    dividerThickness: 1,
                                     rows: [
                                       DataRow(cells: [
                                         DataCell(
@@ -896,5 +901,45 @@ class _HomeScreenState extends State<HomeScreen> {
     // Access the DataProvider and call fetchData
     await Provider.of<ChangeValue>(context, listen: false).fetchData(
         selectedSocietyName!, selectedFlatNo!, usernameController.text);
+  }
+
+  Future<void> storeFcmId() async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    // Get the FCM ID
+    String? fcmId = await _firebaseMessaging.getToken();
+
+    // Get the user's UID
+    var uid = mobileController.text;
+    print('uid: $uid');
+    // Create a new document to store the FCM ID
+    DocumentReference docRef =
+        firestore.collection("users").doc(uid.toString());
+
+    // Store the FCM ID
+    await docRef.update({
+      "fcmId": fcmId,
+    });
+  }
+
+  void _requestPermission() async {
+    NotificationSettings settings =
+        await _firebaseMessaging.requestPermission();
+    print('User granted permission: ${settings.authorizationStatus}');
+  }
+
+  void _configureFirebaseListeners() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Received a message while in the foreground!');
+      print('Message data: ${message.data}');
+      if (message.notification != null) {
+        print(
+            'Message also contained a notification: ${message.notification!.title}');
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('Message clicked!');
+    });
   }
 }

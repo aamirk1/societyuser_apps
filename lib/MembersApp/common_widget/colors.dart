@@ -16,7 +16,7 @@ Widget buildInfoRow(
       Icon(icon, size: 25),
       const SizedBox(width: 10.0),
       Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0),
+        padding: const EdgeInsets.symmetric(vertical: 2.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -24,7 +24,7 @@ Widget buildInfoRow(
               label,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 14.0,
+                fontSize: 12.0,
               ),
             ),
             const SizedBox(height: 5.0),
@@ -32,7 +32,7 @@ Widget buildInfoRow(
               width: MediaQuery.of(context).size.width * 0.80,
               child: Text(
                 value,
-                style: const TextStyle(fontSize: 14.0),
+                style: const TextStyle(fontSize: 12.0),
               ),
             ),
           ],

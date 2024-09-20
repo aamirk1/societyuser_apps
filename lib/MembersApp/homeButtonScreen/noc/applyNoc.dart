@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +40,7 @@ class apply_noc extends StatefulWidget {
 // ignore: camel_case_types
 class _apply_nocState extends State<apply_noc> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  // final TextEditingController _societyNameController = TextEditingController();
+  // final TextEditingController noctypeController = TextEditingController();
   final TextEditingController noctypeController = TextEditingController();
   final TextEditingController saleController = TextEditingController();
   final TextEditingController gasController = TextEditingController();
@@ -86,7 +87,128 @@ class _apply_nocState extends State<apply_noc> {
                 height: MediaQuery.of(context).size.height * 0.06,
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: Text('pending'),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton2<String>(
+                      isExpanded: true,
+                      hint: Text(
+                        'Select Noc Type',
+                        style: TextStyle(
+                          color: textColor,
+                          fontSize: 10,
+                        ),
+                      ),
+                      items: widget.items
+                          .map((item) => DropdownMenuItem(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style:
+                                      TextStyle(fontSize: 14, color: textColor),
+                                ),
+                              ))
+                          .toList(),
+                      // value: selectedSocietyName,
+                      onChanged: (value) async {
+                        setState(() {
+                          noctypeController.text = value.toString();
+                          switch (value.toString()) {
+                            case 'SALE NOC':
+                              _showDialog(
+                                  widget.application[0], saleController);
+                              break;
+                            case 'GAS NOC':
+                              _showDialog(widget.application[1], gasController);
+                              break;
+                            case 'ELECTRIC METER NOC':
+                              _showDialog(
+                                  widget.application[2], electricController);
+                              break;
+                            case 'PASSPORT NOC':
+                              _showDialog(
+                                  widget.application[3], passportController);
+                              break;
+                            case 'RENOVATION NOC':
+                              _showDialog(
+                                  widget.application[4], renovationController);
+                              break;
+                            case 'NOC FOR GIFT DEED':
+                              _showDialog(
+                                  widget.application[5], giftController);
+                              break;
+                            case 'BANK':
+                              _showDialog(
+                                  widget.application[6], bankController);
+                              break;
+                          }
+                        });
+                        setState(() {});
+                      },
+                      buttonStyleData: const ButtonStyleData(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                            border: Border(
+                                right: BorderSide(
+                                  color: Colors.grey,
+                                ),
+                                left: BorderSide(color: Colors.grey),
+                                top: BorderSide(color: Colors.grey),
+                                bottom: BorderSide(
+                                  color: Colors.grey,
+                                ))),
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        height: 40,
+                        width: 200,
+                      ),
+                      dropdownStyleData: const DropdownStyleData(
+                        maxHeight: 200,
+                      ),
+                      menuItemStyleData: const MenuItemStyleData(
+                        height: 40,
+                      ),
+                      dropdownSearchData: DropdownSearchData(
+                        searchController: noctypeController,
+                        searchInnerWidgetHeight: 50,
+                        searchInnerWidget: Container(
+                          height: 50,
+                          padding: const EdgeInsets.only(
+                            top: 8,
+                            bottom: 4,
+                            right: 8,
+                            left: 8,
+                          ),
+                          child: TextFormField(
+                            expands: true,
+                            maxLines: null,
+                            controller: noctypeController,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 8,
+                              ),
+                              hintText: 'Search NOC Type',
+                              hintStyle: const TextStyle(fontSize: 10),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                        ),
+                        searchMatchFn: (item, searchValue) {
+                          return item.value.toString().contains(searchValue);
+                        },
+                      ),
+                      //This to clear the search value when you close the menu
+                      onMenuStateChange: (isOpen) {
+                        if (!isOpen) {
+                          noctypeController.clear();
+                        }
+                      },
+                    ),
+                  ),
+
                   //  TypeAheadField(
                   //     textFieldConfiguration: TextFieldConfiguration(
                   //         controller: noctypeController,

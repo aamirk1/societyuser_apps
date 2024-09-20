@@ -472,7 +472,7 @@ class _memberLedgerState extends State<memberLedger> {
                                 thickness: 1,
                               ),
                               Padding(
-                                padding: EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   children: [
                                     const Column(
@@ -481,17 +481,17 @@ class _memberLedgerState extends State<memberLedger> {
                                           'Total Amount: ',
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 16),
+                                              fontSize: 14),
                                         ),
                                       ],
                                     ),
                                     SizedBox(
                                       width: MediaQuery.of(context).size.width *
-                                          0.20,
+                                          0.15,
                                     ),
                                     Container(
                                       width: MediaQuery.of(context).size.width *
-                                          0.45,
+                                          0.42,
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -499,15 +499,15 @@ class _memberLedgerState extends State<memberLedger> {
                                           Text(totalDebititAmount,
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 14)),
+                                                  fontSize: 12)),
                                           Text(totalCretitAmount,
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 14)),
+                                                  fontSize: 12)),
                                           Text(totalBillAmount,
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 14)),
+                                                  fontSize: 12)),
                                         ],
                                       ),
                                     ),

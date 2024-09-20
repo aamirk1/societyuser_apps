@@ -120,7 +120,7 @@ class _ComplaintsState extends State<Complaints> {
             SingleChildScrollView(
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.50,
+                height: MediaQuery.of(context).size.height * 0.45,
                 child: GridView.builder(
                     itemCount: complaintsTypeList.length,
                     gridDelegate:
