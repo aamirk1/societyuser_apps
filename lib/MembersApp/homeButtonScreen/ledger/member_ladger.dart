@@ -45,6 +45,8 @@ class _memberLedgerState extends State<memberLedger> {
   String currentmonth = DateFormat('MMMM yyyy').format(DateTime.now());
 
   //List of Data with Bill Number
+  Map<String, dynamic> allBillData = {};
+  Map<String, dynamic> allBillDetails = {};
   List<dynamic> allDataWithBill = [];
   List<dynamic> allDataWithReceipt = [];
   List<dynamic> monthList = [];
@@ -205,50 +207,53 @@ class _memberLedgerState extends State<memberLedger> {
                                                                           rowList[index1]
                                                                               [
                                                                               5],
-                                                                      interest:
-                                                                          rowList[index1]
-                                                                              [
-                                                                              6],
-                                                                      legalNoticeCharges:
-                                                                          rowList[index1]
-                                                                              [
-                                                                              7],
-                                                                      maintenanceCharges:
-                                                                          rowList[index1]
-                                                                              [
-                                                                              8],
-                                                                      mhadaLeaseRent:
-                                                                          rowList[index1]
-                                                                              [
-                                                                              9],
-                                                                      municipalTax:
-                                                                          rowList[index1]
-                                                                              [
-                                                                              10],
-                                                                      nonOccupancyChg:
-                                                                          rowList[index1]
-                                                                              [
-                                                                              11],
-                                                                      othercharges:
-                                                                          rowList[index1]
-                                                                              [
-                                                                              12],
-                                                                      parkingCharges:
-                                                                          rowList[index1]
-                                                                              [
-                                                                              13],
-                                                                      repairFund:
-                                                                          rowList[index1]
-                                                                              [
-                                                                              14],
-                                                                      sinkingFund:
-                                                                          rowList[index1]
-                                                                              [
-                                                                              15],
-                                                                      towerBenefit:
-                                                                          rowList[index1]
-                                                                              [
-                                                                              16],
+                                                                      allBillData:
+                                                                          allBillDetails,
+                                                                          
+                                                                      // interest:
+                                                                      //     rowList[index1]
+                                                                      //         [
+                                                                      //         6],
+                                                                      // legalNoticeCharges:
+                                                                      //     rowList[index1]
+                                                                      //         [
+                                                                      //         7],
+                                                                      // maintenanceCharges:
+                                                                      //     rowList[index1]
+                                                                      //         [
+                                                                      //         8],
+                                                                      // mhadaLeaseRent:
+                                                                      //     rowList[index1]
+                                                                      //         [
+                                                                      //         9],
+                                                                      // municipalTax:
+                                                                      //     rowList[index1]
+                                                                      //         [
+                                                                      //         10],
+                                                                      // nonOccupancyChg:
+                                                                      //     rowList[index1]
+                                                                      //         [
+                                                                      //         11],
+                                                                      // othercharges:
+                                                                      //     rowList[index1]
+                                                                      //         [
+                                                                      //         12],
+                                                                      // parkingCharges:
+                                                                      //     rowList[index1]
+                                                                      //         [
+                                                                      //         13],
+                                                                      // repairFund:
+                                                                      //     rowList[index1]
+                                                                      //         [
+                                                                      //         14],
+                                                                      // sinkingFund:
+                                                                      //     rowList[index1]
+                                                                      //         [
+                                                                      //         15],
+                                                                      // towerBenefit:
+                                                                      //     rowList[index1]
+                                                                      //         [
+                                                                      //         16],
                                                                     );
                                                                   },
                                                                 ),
@@ -586,10 +591,30 @@ class _memberLedgerState extends State<memberLedger> {
             row.add(data['TOWER BENEFIT'] ?? 'N/A');
 
             billNoList.add(row);
+
+            allBillData = data;
           }
         }
       }
     }
+    alldata(allBillData);
+  }
+
+  Future<void> alldata(Map<String, dynamic> map) async {
+    var filteredMap = {};
+    map.forEach((key, value) {
+      if (![
+        '6_Bill Amount',
+        '3_Flat No.',
+        '4_Member Name',
+        '1_Bill Date',
+        '5_Bill No',
+        '2_Due Date'
+      ].contains(key)) {
+        filteredMap[key] = value;
+      }
+    });
+    allBillDetails = Map<String, dynamic>.from(filteredMap);
   }
 
   Future<void> getReceipt(String societyname, String flatno) async {
