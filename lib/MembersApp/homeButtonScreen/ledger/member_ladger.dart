@@ -209,15 +209,19 @@ class _memberLedgerState extends State<memberLedger> {
                                                                               5],
                                                                       allBillData:
                                                                           allBillDetails,
-                                                                          
+
                                                                       // interest:
                                                                       //     rowList[index1]
                                                                       //         [
                                                                       //         6],
-                                                                      // legalNoticeCharges:
+                                                                      // arrears:
                                                                       //     rowList[index1]
                                                                       //         [
                                                                       //         7],
+                                                                      // payableAmount:
+                                                                      //     rowList[index1]
+                                                                      //         [
+                                                                      //         8],
                                                                       // maintenanceCharges:
                                                                       //     rowList[index1]
                                                                       //         [
@@ -561,7 +565,7 @@ class _memberLedgerState extends State<memberLedger> {
             allDataWithBill.add(data);
 
             String billAmount = data['6_Bill Amount'].split(' ')[0];
-            // String payableAmount = data['8_Payable'].split(' ')[0];
+            // String payableAmount = data['9_Payable'].split(' ')[0];
             String payableAmount = 0.toString();
             totalBillAmount = totalBillAmount +
                 (double.parse(billAmount) - double.parse(payableAmount))
@@ -579,8 +583,8 @@ class _memberLedgerState extends State<memberLedger> {
             row.add(totalBillAmount);
             row.add(data['2_Due Date'] ?? 'N/A');
             row.add(data['7_Interest'] ?? 'N/A');
-            row.add(data['Legal Notice Charges'] ?? 'N/A');
-            row.add(data['Maintenance Charges'] ?? 'N/A');
+            row.add(data['8_Arrears'] ?? 'N/A');
+            row.add(data['9_Payable'] ?? 'N/A');
             row.add(data['Mhada Lease Rent'] ?? 'N/A');
             row.add(data['Municipal Tax'] ?? 'N/A');
             row.add(data['Non Occupancy Charges'] ?? 'N/A');
@@ -604,6 +608,7 @@ class _memberLedgerState extends State<memberLedger> {
     var filteredMap = {};
     map.forEach((key, value) {
       if (![
+        '9_Payable',
         '6_Bill Amount',
         '3_Flat No.',
         '4_Member Name',
@@ -798,7 +803,6 @@ class _memberLedgerState extends State<memberLedger> {
         creditList.add(['N/A', 'N/A', 'N/A', 'N/A', 'N/A']);
       }
     }
-    print('creditList - ${creditList}');
   }
 
   Future<void> mergeAllList() async {

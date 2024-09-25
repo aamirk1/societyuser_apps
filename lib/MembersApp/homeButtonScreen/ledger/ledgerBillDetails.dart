@@ -23,7 +23,8 @@ class LedgerBillDetailsPage extends StatefulWidget {
     required this.dueDate,
     required this.allBillData,
     // required this.interest,
-    // this.legalNoticeCharges,
+    // this.payableAmount,
+    // this.arrears,
     // this.maintenanceCharges,
     // this.mhadaLeaseRent,
     // this.nonOccupancyChg,
@@ -44,7 +45,8 @@ class LedgerBillDetailsPage extends StatefulWidget {
   String dueDate;
   Map<String, dynamic> allBillData = {};
   // String interest;
-  // String? legalNoticeCharges;
+  // String? payableAmount;
+  // String? arrears;
   // String? maintenanceCharges;
   // String? mhadaLeaseRent;
   // String? nonOccupancyChg;
@@ -92,7 +94,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
   //   'Tower Benefit',
   // ];
 
-  List<String> valuesbill = [];
+  // List<String> valuesbill = [];
   Map<String, dynamic> allBillDetails = {};
   // var converter = NumberToCharacterConverter('en');
   String words = '';
@@ -112,20 +114,24 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
     // valuesbill.add(widget.parkingCharges ?? '0');
     // valuesbill.add(widget.mhadaLeaseRent ?? '0');
     // valuesbill.add(widget.repairFund ?? '0');
-    // valuesbill.add(widget.othercharges ?? '0');
+    // valuesbill.add(widget.othercharges ?? '0');7_Interest
     // valuesbill.add(widget.sinkingFund ?? '0');
     // valuesbill.add(widget.nonOccupancyChg ?? '0');
     // valuesbill.add(widget.interest);
     // valuesbill.add(widget.towerBenefit ?? '0');
-    totalDues = double.parse(widget.billAmount);
     getSociety(widget.societyName).whenComplete(() {});
 
+    totalDues = double.parse(widget.billAmount) +
+        double.parse(widget.allBillData['8_Arrears']) +
+        double.parse(widget.allBillData['7_Interest']);
+
+   
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<ChangeValue>(context, listen: false);
+    // final provider = Provider.of<ChangeValue>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
@@ -218,11 +224,11 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                               SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.30,
-                                width: MediaQuery.of(context).size.width * 0.92,
+                                width: MediaQuery.of(context).size.width * 0.93,
                                 child: SingleChildScrollView(
                                   child: DataTable(
                                     dividerThickness: 0,
-                                    columnSpacing: 20,
+                                    columnSpacing: 5,
                                     columns: [
                                       DataColumn(
                                           label: Text(
@@ -256,9 +262,13 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                             Text((index + 1)
                                                 .toString()), // Display serial number
                                           ),
-                                          DataCell(Text(value.key
-                                              .split('${index + 1}_')
-                                              .join(''))),
+                                          DataCell(
+                                            Text(value.key.replaceFirst(
+                                                RegExp(r'^\d+_'), '')),
+                                            // Text(value.key
+                                            //   .split('${index + 1}_')
+                                            //   .join('')),
+                                          ),
                                           DataCell(
                                             Text(value.value.toString()),
                                           ),
@@ -311,10 +321,10 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                             "Previous Dues",
                                             style: TextStyle(fontSize: 9),
                                           ),
-                                          // Text(
-                                          //   "Intrest On Dues",
-                                          //   style: TextStyle(fontSize: 9),
-                                          // )
+                                          Text(
+                                            "Intrest On Dues",
+                                            style: TextStyle(fontSize: 9),
+                                          )
                                         ],
                                       ),
                                       const Column(
@@ -325,8 +335,8 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                               style: TextStyle(fontSize: 9)),
                                           Text(":",
                                               style: TextStyle(fontSize: 9)),
-                                          // Text(":",
-                                          //     style: TextStyle(fontSize: 9)),
+                                          Text(":",
+                                              style: TextStyle(fontSize: 9)),
                                         ],
                                       ),
                                       Column(
@@ -336,12 +346,14 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                             Text(widget.billAmount,
                                                 style: const TextStyle(
                                                     fontSize: 9)),
-                                            const Text('0', //widget.billAmount,
-                                                style: TextStyle(fontSize: 9)),
-                                            // Text(
-                                            //     "${widget.interest == '' ? 0 : widget.interest}",
-                                            //     style: const TextStyle(
-                                            //         fontSize: 9)),
+                                            Text(
+                                                "${widget.allBillData['8_Arrears']}",
+                                                style: const TextStyle(
+                                                    fontSize: 9)),
+                                            Text(
+                                                "${widget.allBillData['7_Interest']}",
+                                                style: const TextStyle(
+                                                    fontSize: 9)),
                                           ]),
                                       Divider(
                                         color: textColor,
@@ -375,7 +387,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 2.0),
                                               child: Text(
-                                                provider.grandTotalBillAmount,
+                                                totalDues.toString(),
                                                 style: const TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 12),

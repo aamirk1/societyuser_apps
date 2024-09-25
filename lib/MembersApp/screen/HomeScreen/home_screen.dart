@@ -70,11 +70,13 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isDataAvailable = false;
   String phoneNum = '';
   String currentmonth = DateFormat('MMMM yyyy').format(DateTime.now());
+  ChangeValue provider = ChangeValue();
   String lastMonth = DateFormat('MMMM yyyy').format(
     DateTime.now().subtract(const Duration(days: 30)),
   );
   @override
   void initState() {
+    provider = Provider.of<ChangeValue>(context, listen: false);
     _splashService.getPhoneNum();
     getSocietyList().whenComplete(() {
       setState(() {
@@ -83,6 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     _requestPermission();
     _configureFirebaseListeners();
+
     super.initState();
   }
 
@@ -370,10 +373,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                             selectedFlatNo = value;
                                             getMemberName(selectedSocietyName!,
                                                     value!)
-                                                .whenComplete(() {
+                                                .whenComplete(() async {
                                               isflatnoSelected = true;
                                               storeFcmId();
-                                              _loadData();
+                                              // _loadData();
+                                              await provider.getBill(
+                                                  selectedSocietyName!,
+                                                  selectedFlatNo!);
                                             });
                                           },
                                           buttonStyleData:
@@ -899,8 +905,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _loadData() async {
     // Access the DataProvider and call fetchData
-    await Provider.of<ChangeValue>(context, listen: false).fetchData(
-        selectedSocietyName!, selectedFlatNo!, usernameController.text);
+    provider = await Provider.of<ChangeValue>(context, listen: false);
+    ('provider.grandTotalBillAmount: ${provider.grandTotalBillAmount}');
   }
 
   Future<void> storeFcmId() async {
