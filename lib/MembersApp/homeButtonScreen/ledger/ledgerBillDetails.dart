@@ -3,11 +3,10 @@ import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:number_to_character/number_to_character.dart';
 // import 'package:number_to_character/number_to_character.dart';
 import 'package:societyuser_app/MembersApp/auth/splash_service.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
-import 'package:societyuser_app/MembersApp/provider/ChangeValueProvider.dart';
 
 // ignore: must_be_immutable
 class LedgerBillDetailsPage extends StatefulWidget {
@@ -76,7 +75,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
 
   dynamic totalDues = 0.0;
   List<String> colums = [
-    'Sr. No.',
+    'Sr.No.',
     'Particulars of \n Changes',
     'Amount',
   ];
@@ -96,12 +95,12 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
 
   // List<String> valuesbill = [];
   Map<String, dynamic> allBillDetails = {};
-  // var converter = NumberToCharacterConverter('en');
+  var converter = NumberToCharacterConverter('en');
   String words = '';
   String phoneNum = '';
-  // void numbertochar() {
-  //   words = converter.getTextForNumber(widget.billAmount as int);
-  // }
+  void numbertochar(int amount) {
+    words = converter.getTextForNumber(amount);
+  }
 
   @override
   initState() {
@@ -124,8 +123,7 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
     totalDues = double.parse(widget.billAmount) +
         double.parse(widget.allBillData['8_Arrears']) +
         double.parse(widget.allBillData['7_Interest']);
-
-   
+    numbertochar(totalDues.toInt());
     super.initState();
   }
 
@@ -218,17 +216,17 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
                           thickness: 1,
                         ),
                         Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            // crossAxisAlignment: CrossAxisAlignment.start,
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.30,
-                                width: MediaQuery.of(context).size.width * 0.93,
+                                width: MediaQuery.of(context).size.width * 0.95,
                                 child: SingleChildScrollView(
                                   child: DataTable(
                                     dividerThickness: 0,
-                                    columnSpacing: 5,
+                                    columnSpacing: 40,
                                     columns: [
                                       DataColumn(
                                           label: Text(

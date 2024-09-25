@@ -523,7 +523,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     borderRadius: BorderRadius.circular(5),
                                   ),
                                   child: DataTable(
-                                    columnSpacing: 145,
+                                    columnSpacing: 140,
                                     columns: [
                                       const DataColumn(
                                           label: Padding(

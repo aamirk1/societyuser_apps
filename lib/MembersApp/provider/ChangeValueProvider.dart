@@ -90,7 +90,7 @@ class ChangeValue extends ChangeNotifier {
             billNoList.add(row);
 
             setGrandTotalBillAmount(data['9_Payable'].toString());
-            print('grandTotalBillAmountttt $grandTotalBillAmount');
+           
           }
         }
       }
