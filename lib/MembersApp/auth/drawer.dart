@@ -263,7 +263,7 @@ class _MyDrawerState extends State<MyDrawer> {
 
     if (listResult.items.isNotEmpty) {
       byteData = await listResult.items[0].getData();
-      print(byteData);
+      // print(byteData);
       //setState(() {});
     }
   }

@@ -153,7 +153,7 @@ class _memberLedgerState extends State<memberLedger> {
                                           cells: List.generate(
                                             colums.length,
                                             (index2) {
-                                              print(rowList[index1][index2]);
+                                              // print(rowList[index1][index2]);
                                               return DataCell(
                                                 index2 == 1
                                                     ? particulartsLableList[
@@ -623,7 +623,7 @@ class _memberLedgerState extends State<memberLedger> {
   }
 
   Future<void> getReceipt(String societyname, String flatno) async {
-    print('here $totalBillAmount');
+    // print('here $totalBillAmount');
     receiptList.clear();
     isLoading = true;
     phoneNum = await _splashService.getPhoneNum();
@@ -740,7 +740,7 @@ class _memberLedgerState extends State<memberLedger> {
         debitList.add(singleRow);
       }
     }
-    print('debitList - $debitList');
+    // print('debitList - $debitList');
   }
 
   Future<void> creditNoteData() async {
@@ -822,8 +822,8 @@ class _memberLedgerState extends State<memberLedger> {
 
     rowList = listOfRows;
 
-    print('rowListtttt22 - ${rowList}');
+    // print('rowListtttt22 - ${rowList}');
 
-    print(listOfRows);
+    // print(listOfRows);
   }
 }

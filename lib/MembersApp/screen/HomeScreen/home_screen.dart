@@ -917,7 +917,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Get the user's UID
     var uid = mobileController.text;
-    print('uid: $uid');
+    // print('uid: $uid');
     // Create a new document to store the FCM ID
     DocumentReference docRef =
         firestore.collection("users").doc(uid.toString());
