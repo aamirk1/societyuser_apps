@@ -10,10 +10,11 @@ import 'package:societyuser_app/MembersApp/provider/AllComplaintProvider.dart';
 
 // ignore: camel_case_types, must_be_immutable
 class ApplyComplaints extends StatefulWidget {
-  ApplyComplaints({super.key, this.flatno, this.societyName});
+  ApplyComplaints(
+      {super.key, this.flatno, this.societyName, required this.fcmId});
   String? flatno;
   String? societyName;
-
+  String fcmId;
   @override
   State<ApplyComplaints> createState() => _ApplyComplaintsState();
 
@@ -403,8 +404,9 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
           .collection('dateOfComplaint')
           .doc(date2)
           .set({
-        // 'complaintsType': complaintsType,
+        'complaintsType': complaintsType,
         'text': text,
+        'fcmId': widget.fcmId
       });
 
       await firestore

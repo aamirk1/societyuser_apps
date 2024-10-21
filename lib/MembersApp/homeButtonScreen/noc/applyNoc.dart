@@ -10,9 +10,10 @@ import 'package:societyuser_app/MembersApp/provider/AllNocProvider.dart';
 
 // ignore: camel_case_types, must_be_immutable
 class apply_noc extends StatefulWidget {
-  apply_noc({super.key, this.flatno, this.societyName});
+  apply_noc({super.key, this.flatno, this.societyName, required this.fcmId});
   String? flatno;
   String? societyName;
+  String fcmId;
 
   @override
   State<apply_noc> createState() => _apply_nocState();
@@ -336,10 +337,8 @@ class _apply_nocState extends State<apply_noc> {
                             backgroundColor:
                                 MaterialStateProperty.all(Colors.green)),
                         onPressed: () async {
-                          storeUserData(
-                            noctypeController.text,
-                            controller.text,
-                          );
+                          storeUserData(noctypeController.text, controller.text,
+                              widget.fcmId);
                         },
                         child: const Text(
                           'Submit',
@@ -359,10 +358,7 @@ class _apply_nocState extends State<apply_noc> {
     );
   }
 
-  void storeUserData(
-    String nocType,
-    String text,
-  ) async {
+  void storeUserData(String nocType, String text, String fcmId) async {
     final provider = Provider.of<AllNocProvider>(context, listen: false);
     try {
       // Create a new document in the "users" collection
@@ -375,10 +371,7 @@ class _apply_nocState extends State<apply_noc> {
           .doc(nocType)
           .collection('dateOfNoc')
           .doc(date2)
-          .set({
-        'nocType': nocType,
-        'text': text,
-      });
+          .set({'nocType': nocType, 'text': text, 'fcmId': widget.fcmId});
       await firestore
           .collection('nocApplications')
           .doc(widget.societyName)

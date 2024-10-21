@@ -243,9 +243,11 @@ class _MyDrawerState extends State<MyDrawer> {
                   context,
                   MaterialPageRoute(builder: (context) {
                     return Complaints(
-                        flatno: widget.flatno,
-                        societyName: widget.societyName,
-                        username: widget.username);
+                      flatno: widget.flatno,
+                      societyName: widget.societyName,
+                      username: widget.username,
+                      mobile: mobileController.text,
+                    );
                   }),
                 );
               },
@@ -266,7 +268,8 @@ class _MyDrawerState extends State<MyDrawer> {
                     return nocPage(
                         flatno: widget.flatno,
                         societyName: widget.societyName,
-                        username: widget.username);
+                        username: widget.username,
+                        mobile: widget.username);
                   }),
                 );
               },

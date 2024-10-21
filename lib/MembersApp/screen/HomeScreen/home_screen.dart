@@ -99,26 +99,26 @@ class _HomeScreenState extends State<HomeScreen> {
     'GATE PASS',
     // 'REPORTS',
   ];
-  List<Widget Function(String, String, String)> screens = [
-    (flatno, society, name) => memberLedger(
+  List<Widget Function(String, String, String, String)> screens = [
+    (flatno, society, name, mobile) => memberLedger(
           flatno: flatno,
           societyName: society,
           username: name,
+          // mobile:mobile
         ),
-    (flatno, society, name) => circular_notice(
+    (flatno, society, name, mobile) => circular_notice(
           flatno: flatno,
           societyName: society,
           username: name,
+          // mobile:mobile
         ),
-    (flatno, society, name) => nocPage(
+    (flatno, society, name, mobile) => nocPage(
+        flatno: flatno, societyName: society, username: name, mobile: mobile),
+    (flatno, society, name, mobile) => Complaints(
           flatno: flatno,
           societyName: society,
           username: name,
-        ),
-    (flatno, society, name) => Complaints(
-          flatno: flatno,
-          societyName: society,
-          username: name,
+          mobile: mobile,
         ),
     // (flat, society, username) => const ResidentManagement(),
     // (flatno, society, name) => ServiceProvider(
@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //       societyName: society,
     //       username: name,
     //     ),
-    (flatno, society, name) => GatePass(
+    (flatno, society, name, mobile) => GatePass(
           flatno: flatno,
           societyName: society,
           username: name,
@@ -626,12 +626,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      screens[index](
-                                                          selectedFlatNo!,
-                                                          selectedSocietyName!,
-                                                          usernameController
-                                                              .text),
+                                                  builder: (context) => screens[
+                                                          index](
+                                                      selectedFlatNo!,
+                                                      selectedSocietyName!,
+                                                      usernameController.text,
+                                                      mobileController.text),
                                                 ),
                                               );
                                             } else {

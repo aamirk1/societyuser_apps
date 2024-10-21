@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:societyuser_app/MembersApp/common_widget/colors.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/complaint/applyComplaint.dart';
@@ -5,10 +6,16 @@ import 'package:societyuser_app/MembersApp/homeButtonScreen/complaint/complaints
 
 // ignore: camel_case_types, must_be_immutable
 class Complaints extends StatefulWidget {
-  Complaints({super.key, this.flatno, this.societyName, this.username});
+  Complaints(
+      {super.key,
+      this.flatno,
+      this.societyName,
+      this.username,
+      required this.mobile});
   String? flatno;
   String? societyName;
   String? username;
+  String mobile;
 
   @override
   State<Complaints> createState() => _ComplaintsState();
@@ -19,6 +26,7 @@ class _ComplaintsState extends State<Complaints> {
   @override
   void initState() {
     super.initState();
+    getFcmId(widget.mobile);
   }
 
   List<String> complaintsTypeList = [
@@ -33,6 +41,7 @@ class _ComplaintsState extends State<Complaints> {
     'Pet Animals Related',
     'Others'
   ];
+  String fcmId = '';
   bool isLoading = true;
   @override
   Widget build(BuildContext context) {
@@ -184,6 +193,7 @@ class _ComplaintsState extends State<Complaints> {
               return ApplyComplaints(
                 flatno: widget.flatno,
                 societyName: widget.societyName,
+                fcmId: fcmId,
               );
             }));
           },
@@ -195,6 +205,22 @@ class _ComplaintsState extends State<Complaints> {
         ),
       ),
     );
+  }
+
+  Future<void> getFcmId(String mobile) async {
+    QuerySnapshot getAllFcmId = await FirebaseFirestore.instance
+        .collection('users')
+        .where('mobile', isEqualTo: mobile)
+        .get();
+    if (getAllFcmId.docs.isNotEmpty) {
+      List<dynamic> tempData = getAllFcmId.docs
+          .map((e) => (e.data() as Map<String, dynamic>)['fcmId'])
+          .toList();
+
+      fcmId = tempData.toString();
+      print('update232 $tempData');
+    }
+    print('updatedasd fcmId $fcmId');
   }
 
   Widget getIcon(String iconName) {

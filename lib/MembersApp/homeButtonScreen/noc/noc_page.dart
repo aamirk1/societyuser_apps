@@ -8,10 +8,16 @@ import 'package:societyuser_app/MembersApp/provider/AllNocProvider.dart';
 
 // ignore: camel_case_types, must_be_immutable
 class nocPage extends StatefulWidget {
-  nocPage({super.key, this.flatno, this.societyName, this.username});
+  nocPage(
+      {super.key,
+      this.flatno,
+      this.societyName,
+      this.username,
+      required this.mobile});
   String? flatno;
   String? societyName;
   String? username;
+  String mobile;
 
   @override
   State<nocPage> createState() => _nocPageState();
@@ -21,6 +27,7 @@ class nocPage extends StatefulWidget {
 class _nocPageState extends State<nocPage> {
   @override
   void initState() {
+    getFcmId(widget.mobile);
     fetchData().whenComplete(() {
       setState(() {
         isLoading = false;
@@ -29,6 +36,7 @@ class _nocPageState extends State<nocPage> {
     super.initState();
   }
 
+  String fcmId = '';
   bool isLoading = true;
   List<String> nocTypeApplication = [
     'SALE NOC',
@@ -203,6 +211,7 @@ class _nocPageState extends State<nocPage> {
               return apply_noc(
                 flatno: widget.flatno,
                 societyName: widget.societyName,
+                fcmId: fcmId,
               );
             }));
           },
@@ -281,5 +290,21 @@ class _nocPageState extends State<nocPage> {
           size: 30,
         );
     }
+  }
+
+  Future<void> getFcmId(String mobile) async {
+    QuerySnapshot getAllFcmId = await FirebaseFirestore.instance
+        .collection('users')
+        .where('mobile', isEqualTo: mobile)
+        .get();
+    if (getAllFcmId.docs.isNotEmpty) {
+      List<dynamic> tempData = getAllFcmId.docs
+          .map((e) => (e.data() as Map<String, dynamic>)['fcmId'])
+          .toList();
+
+      fcmId = tempData.toString();
+      print('update232 $tempData');
+    }
+    print('updatedasd fcmId $fcmId');
   }
 }
