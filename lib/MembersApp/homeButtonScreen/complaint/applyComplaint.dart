@@ -99,7 +99,7 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
             children: [
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.90,
-                height: MediaQuery.of(context).size.height * 0.08,
+                height: MediaQuery.of(context).size.height * 0.10,
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: DropdownButtonHideUnderline(

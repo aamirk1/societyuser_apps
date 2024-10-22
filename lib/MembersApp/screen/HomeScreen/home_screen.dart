@@ -130,6 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
           flatno: flatno,
           societyName: society,
           username: name,
+          mobile: mobile,
         ),
     // (flat, society, username) => const ReportScreen(),
   ];

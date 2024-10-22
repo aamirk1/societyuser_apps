@@ -9,9 +9,11 @@ import 'package:societyuser_app/MembersApp/provider/AllGatePassProvider.dart';
 
 // ignore: camel_case_types, must_be_immutable
 class ApplyGatePass extends StatefulWidget {
-  ApplyGatePass({super.key, this.flatno, this.societyName});
+  ApplyGatePass(
+      {super.key, this.flatno, this.societyName, required this.fcmId});
   String? flatno;
   String? societyName;
+  String fcmId;
 
   @override
   State<ApplyGatePass> createState() => _ApplyGatePassState();
@@ -100,11 +102,8 @@ class _ApplyGatePassState extends State<ApplyGatePass> {
                                 backgroundColor:
                                     WidgetStateProperty.all(Colors.green)),
                             onPressed: () async {
-                              storeUserData(
-                                gatePassTypeController.text,
-                                controller.text,
-                                currentDate,
-                              );
+                              storeUserData(gatePassTypeController.text,
+                                  controller.text, currentDate, widget.fcmId);
                             },
                             child: const Text(
                               'Submit',
@@ -126,7 +125,8 @@ class _ApplyGatePassState extends State<ApplyGatePass> {
     );
   }
 
-  void storeUserData(String gatePassType, String text, String date) async {
+  void storeUserData(
+      String gatePassType, String text, String date, String fcmId) async {
     final provider = Provider.of<AllGatePassProvider>(context, listen: false);
     try {
       // Create a new document in the "users" collection
@@ -139,10 +139,7 @@ class _ApplyGatePassState extends State<ApplyGatePass> {
           .doc(gatePassType)
           .collection('dateOfGatePass')
           .doc(date)
-          .set({
-        'gatePassType': gatePassType,
-        'text': text,
-      });
+          .set({'gatePassType': gatePassType, 'text': text, 'fcmId': fcmId});
       await firestore
           .collection('gatePassApplications')
           .doc(widget.societyName)

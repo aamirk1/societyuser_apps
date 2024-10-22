@@ -302,7 +302,7 @@ class _nocPageState extends State<nocPage> {
           .map((e) => (e.data() as Map<String, dynamic>)['fcmId'])
           .toList();
 
-      fcmId = tempData.toString();
+      fcmId = tempData.join(', ').toString();
       print('update232 $tempData');
     }
     print('updatedasd fcmId $fcmId');

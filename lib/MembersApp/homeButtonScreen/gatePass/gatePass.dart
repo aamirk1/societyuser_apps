@@ -10,10 +10,11 @@ import 'package:societyuser_app/MembersApp/provider/AllGatePassProvider.dart';
 
 // ignore: camel_case_types, must_be_immutable
 class GatePass extends StatefulWidget {
-  GatePass({super.key, this.flatno, this.societyName, this.username});
+  GatePass({super.key, this.flatno, this.societyName, this.username, required this.mobile});
   String? flatno;
   String? societyName;
   String? username;
+  String mobile;
 
   @override
   State<GatePass> createState() => _GatePassState();
@@ -23,6 +24,7 @@ class GatePass extends StatefulWidget {
 class _GatePassState extends State<GatePass> {
   @override
   void initState() {
+    getFcmId(widget.mobile);
     fetchData().whenComplete(() {
       setState(() {
         isLoading = false;
@@ -34,6 +36,7 @@ class _GatePassState extends State<GatePass> {
   List<String> nocData = [];
   List<dynamic> checkResult = [];
   bool isLoading = true;
+  String fcmId = '';
 
   @override
   Widget build(BuildContext context) {
@@ -123,13 +126,15 @@ class _GatePassState extends State<GatePass> {
                       return value.gatePassList.isEmpty
                           ? Center(
                               child: Container(
-                              width: MediaQuery.of(context).size.width,
+                              width: MediaQuery.of(context).size.width* 98,
                               height: MediaQuery.of(context).size.height / 2,
                               alignment: Alignment.center,
-                              child: const Text(
-                                'No Gate Pass Available.',
-                                style:
-                                    TextStyle(fontSize: 20, color: Colors.red),
+                              child: const Center(
+                                child: Text(
+                                  'No Gate Pass Available.',
+                                  style:
+                                      TextStyle(fontSize: 20, color: Colors.red),
+                                ),
                               ),
                             ))
                           : SizedBox(
@@ -208,6 +213,7 @@ class _GatePassState extends State<GatePass> {
               return ApplyGatePass(
                 flatno: widget.flatno,
                 societyName: widget.societyName,
+                fcmId: fcmId,
               );
             }));
           },
@@ -268,5 +274,21 @@ class _GatePassState extends State<GatePass> {
             ],
           );
         });
+  }
+
+  Future<void> getFcmId(String mobile) async {
+    QuerySnapshot getAllFcmId = await FirebaseFirestore.instance
+        .collection('users')
+        .where('mobile', isEqualTo: mobile)
+        .get();
+    if (getAllFcmId.docs.isNotEmpty) {
+      List<dynamic> tempData = getAllFcmId.docs
+          .map((e) => (e.data() as Map<String, dynamic>)['fcmId'])
+          .toList();
+
+      fcmId = tempData.join(', ').toString();
+      print('update232 $tempData');
+    }
+    print('updatedasd fcmId $fcmId');
   }
 }
