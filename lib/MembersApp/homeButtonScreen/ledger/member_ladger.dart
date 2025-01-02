@@ -8,6 +8,7 @@ import 'package:societyuser_app/MembersApp/homeButtonScreen/ledger/creditNoteDet
 import 'package:societyuser_app/MembersApp/homeButtonScreen/ledger/debitNoteDetails.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/ledger/ledgerBillDetails.dart';
 import 'package:societyuser_app/MembersApp/homeButtonScreen/ledger/ledgerReceiptDetails.dart';
+import 'package:societyuser_app/MembersApp/provider/ChangeValueProvider.dart';
 
 // ignore: camel_case_types, must_be_immutable
 class memberLedger extends StatefulWidget {
@@ -63,13 +64,13 @@ class _memberLedgerState extends State<memberLedger> {
   String date = '';
   String date2 = '';
   String particulars = '';
-  String debitnoteNumber = '';
-  String creditnoteNumber = '';
+  String debitnoteNumber = '0';
+  String creditnoteNumber = '0';
   String amount = '';
-  String totalBillAmount = '';
+  String totalBillAmount = '0';
   String totalCretitAmount = '0';
   String totalDebititAmount = '0';
-  String totalReceiptAmount = '';
+  String totalReceiptAmount = '0';
   String month = '';
   List<List<dynamic>> billNoList = [];
   List<List<dynamic>> creditList = [];
@@ -567,10 +568,11 @@ class _memberLedgerState extends State<memberLedger> {
             String billAmount = data['6_Bill Amount'].split(' ')[0];
             // String payableAmount = data['9_Payable'].split(' ')[0];
             String payableAmount = 0.toString();
-            totalBillAmount = totalBillAmount +
-                (double.parse(billAmount) - double.parse(payableAmount))
-                    .toString();
-
+            totalBillAmount = (double.parse(totalBillAmount) +
+                    double.parse(billAmount) -
+                    double.parse(payableAmount))
+                .toString();
+            print('totalBillAmountNew $totalBillAmount');
             totalDebititAmount =
                 (double.parse(totalDebititAmount) + double.parse(billAmount))
                     .toString();
@@ -744,6 +746,7 @@ class _memberLedgerState extends State<memberLedger> {
   }
 
   Future<void> creditNoteData() async {
+    final provider = Provider.of<ChangeValue>(context, listen: false);
     creditList.clear();
     QuerySnapshot societyQuerySnapshot = await FirebaseFirestore.instance
         .collection('creditNote')
@@ -782,6 +785,8 @@ class _memberLedgerState extends State<memberLedger> {
                 double.parse(payableAmount) -
                 double.parse(creditAmount))
             .toString();
+
+        provider.setGrandTotalBillAmount(totalBillAmount);
 
         totalCretitAmount =
             (double.parse(totalCretitAmount) + double.parse(creditAmount))
@@ -822,7 +827,7 @@ class _memberLedgerState extends State<memberLedger> {
 
     rowList = listOfRows;
 
-    // print('rowListtttt22 - ${rowList}');
+    print('rowListtttt22 - ${rowList}');
 
     // print(listOfRows);
   }

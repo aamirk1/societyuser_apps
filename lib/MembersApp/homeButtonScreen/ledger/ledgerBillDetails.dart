@@ -113,8 +113,12 @@ class _LedgerBillDetailsPageState extends State<LedgerBillDetailsPage> {
     getSociety(widget.societyName).whenComplete(() {});
 
     totalDues = double.parse(widget.billAmount) +
-        double.parse(widget.allBillData['8_Arrears']) +
-        double.parse(widget.allBillData['7_Interest']);
+        (widget.allBillData['8_Arrears'].isNotEmpty
+            ? double.parse(widget.allBillData['8_Arrears'])
+            : 0) +
+        (widget.allBillData['7_Interest'].isNotEmpty
+            ? double.parse(widget.allBillData['7_Interest'])
+            : 0);
     numbertochar(totalDues.toInt());
     super.initState();
   }

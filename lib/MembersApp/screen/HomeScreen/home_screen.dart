@@ -377,10 +377,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 .whenComplete(() async {
                                               isflatnoSelected = true;
                                               storeFcmId();
+                                              await provider
+                                                  .fetchData(
+                                                      selectedSocietyName!,
+                                                      selectedFlatNo!,
+                                                      usernameController.text)
+                                                  .whenComplete(() {});
                                               // _loadData();
-                                              await provider.getBill(
-                                                  selectedSocietyName!,
-                                                  selectedFlatNo!);
+                                              // await provider.getBill(
+                                              //     selectedSocietyName!,
+                                              //     selectedFlatNo!);
+                                              // await provider.getReceipt(
+                                              //     selectedSocietyName!,
+                                              //     selectedFlatNo!,
+                                              //     usernameController.text);
+                                              // await provider.debitNoteData(
+                                              //     selectedSocietyName!,
+                                              //     selectedFlatNo!,
+                                              //     usernameController.text);
                                             });
                                           },
                                           buttonStyleData:
@@ -536,11 +550,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       )),
                                       DataColumn(
-                                          label: value
-                                                  .grandTotalBillAmount.isEmpty
-                                              ? const Text('Rs: 0')
-                                              : Text(
-                                                  'Rs: ${value.grandTotalBillAmount}')),
+                                          label:
+                                              //  value
+                                              //         .grandTotalBillAmount.isEmpty
+                                              //  ?
+                                              Text(value.grandTotalBillAmount)
+
+                                          // : Text(
+                                          //     'Rs: ${value.grandTotalBillAmount}')
+                                          ),
                                     ],
                                     dividerThickness: 1,
                                     rows: [
