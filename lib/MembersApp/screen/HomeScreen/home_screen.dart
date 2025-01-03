@@ -554,7 +554,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                               //  value
                                               //         .grandTotalBillAmount.isEmpty
                                               //  ?
-                                              Text(value.grandTotalBillAmount)
+                                              Text(
+                                                  'Rs: ${value.grandTotalBillAmount}')
 
                                           // : Text(
                                           //     'Rs: ${value.grandTotalBillAmount}')

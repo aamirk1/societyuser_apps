@@ -154,7 +154,6 @@ class _memberLedgerState extends State<memberLedger> {
                                           cells: List.generate(
                                             colums.length,
                                             (index2) {
-                                              // print(rowList[index1][index2]);
                                               return DataCell(
                                                 index2 == 1
                                                     ? particulartsLableList[
@@ -535,6 +534,7 @@ class _memberLedgerState extends State<memberLedger> {
   }
 
   Future<void> getBill(String societyname, String flatno) async {
+
     billNoList.clear();
     isLoading = true;
 
@@ -565,18 +565,18 @@ class _memberLedgerState extends State<memberLedger> {
           if (flatno == data['3_Flat No.']) {
             allDataWithBill.add(data);
 
-            String billAmount = data['6_Bill Amount'].split(' ')[0];
+            String billAmount = data['6_Bill Amount'].split('.')[0];
+            print('billAmountssss $billAmount');
             // String payableAmount = data['9_Payable'].split(' ')[0];
             String payableAmount = 0.toString();
-            totalBillAmount = (double.parse(totalBillAmount) +
-                    double.parse(billAmount) -
-                    double.parse(payableAmount))
-                .toString();
-            print('totalBillAmountNew $totalBillAmount');
+            totalBillAmount = (double.parse(billAmount) -
+                    double.parse(payableAmount) +
+                    double.parse(totalBillAmount))
+                .toString()
+                .split('.')[0];
             totalDebititAmount =
                 (double.parse(totalDebititAmount) + double.parse(billAmount))
                     .toString();
-            // print('totalDebititAmount111 $totalDebititAmount');
 
             row.add(data['1_Bill Date'] ?? 'N/A');
             row.add(data['5_Bill No'] ?? '0');
@@ -625,7 +625,6 @@ class _memberLedgerState extends State<memberLedger> {
   }
 
   Future<void> getReceipt(String societyname, String flatno) async {
-    // print('here $totalBillAmount');
     receiptList.clear();
     isLoading = true;
     phoneNum = await _splashService.getPhoneNum();
@@ -654,13 +653,14 @@ class _memberLedgerState extends State<memberLedger> {
           if (flatno == data['1_Flat No.']) {
             allDataWithReceipt.add(data);
 
-            String receiptAmount = data['5_Amount'].split(' ')[0];
+            String receiptAmount = data['5_Amount'].split('.')[0];
             // String payableAmount = data['8_Payable'].split(' ')[0];
             String payableAmount = 0.toString();
             totalBillAmount = (double.parse(totalBillAmount) +
                     double.parse(payableAmount) -
                     double.parse(receiptAmount))
-                .toString();
+                .toString()
+                .split('.')[0];
             totalCretitAmount =
                 (double.parse(totalCretitAmount) + double.parse(receiptAmount))
                     .toString();
@@ -685,7 +685,6 @@ class _memberLedgerState extends State<memberLedger> {
         receiptList.add(['N/A', '0', '0', '0', '0']);
       }
     }
-    // print(allRecepts.length);
   }
 
   Future<void> debitNoteData() async {
@@ -721,17 +720,18 @@ class _memberLedgerState extends State<memberLedger> {
         monthyear = data['month'];
         date2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
 
-        String debitAmount = data['amount'].split(' ')[0];
+        String debitAmount = data['amount'].split('.')[0];
         String payableAmount = 0.toString();
         totalBillAmount = (double.parse(totalBillAmount) +
                 double.parse(debitAmount) -
                 double.parse(payableAmount))
-            .toString();
+            .toString()
+            .split('.')[0];
 
         totalDebititAmount =
             (double.parse(totalDebititAmount) + double.parse(debitAmount))
                 .toString();
-        // print('totalDebititAmount22 - $totalDebititAmount');
+
         singleRow.add(date2);
         singleRow.add(particulars);
         singleRow.add(debitAmount);
@@ -742,7 +742,6 @@ class _memberLedgerState extends State<memberLedger> {
         debitList.add(singleRow);
       }
     }
-    // print('debitList - $debitList');
   }
 
   Future<void> creditNoteData() async {
@@ -779,12 +778,13 @@ class _memberLedgerState extends State<memberLedger> {
         monthyear = data['month'];
         date2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
 
-        String creditAmount = data['amount'].split(' ')[0];
+        String creditAmount = data['amount'].split('.')[0];
         String payableAmount = 0.toString();
         totalBillAmount = (double.parse(totalBillAmount) +
                 double.parse(payableAmount) -
                 double.parse(creditAmount))
-            .toString();
+            .toString()
+            .split('.')[0];
 
         provider.setGrandTotalBillAmount(totalBillAmount);
 
@@ -826,9 +826,5 @@ class _memberLedgerState extends State<memberLedger> {
     }
 
     rowList = listOfRows;
-
-    print('rowListtttt22 - ${rowList}');
-
-    // print(listOfRows);
   }
 }

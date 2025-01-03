@@ -92,14 +92,16 @@ class ChangeValue extends ChangeNotifier {
           if (flatno == data['3_Flat No.']) {
             allDataWithBill.add(data);
 
-            String billAmount = data['6_Bill Amount'].split(' ')[0];
-            // String payableAmount = data['9_Payable'].split(' ')[0];
+            String billAmount = data['6_Bill Amount'].split('.')[0];
+
+            // String payableAmount = data['9_Payable'].split('.')[0];
             String payableAmount = 0.toString();
             totalBillAmount = (double.parse(totalBillAmount) +
                     double.parse(billAmount) -
                     double.parse(payableAmount))
-                .toString();
-            print('totalBillAmountNew $totalBillAmount');
+                .toString()
+                .split('.')[0];
+            print('totalBillAmountBilll $totalBillAmount');
             totalDebititAmount =
                 (double.parse(totalDebititAmount) + double.parse(billAmount))
                     .toString();
@@ -131,6 +133,7 @@ class ChangeValue extends ChangeNotifier {
       }
     }
     alldata(allBillData);
+    notifyListeners();
   }
 
   Future<void> alldata(Map<String, dynamic> map) async {
@@ -181,14 +184,17 @@ class ChangeValue extends ChangeNotifier {
           if (flatno == data['1_Flat No.']) {
             allDataWithReceipt.add(data);
 
-            String receiptAmount = data['5_Amount'].split(' ')[0];
-            // String payableAmount = data['8_Payable'].split(' ')[0];
+            String receiptAmount = data['5_Amount'].split('.')[0];
+
+            // String payableAmount = data['8_Payable'].split('.')[0];
             String payableAmount = 0.toString();
             totalBillAmount = (double.parse(totalBillAmount) +
                     double.parse(payableAmount) -
                     double.parse(receiptAmount))
-                .toString();
-            // setGrandTotalBillAmount(totalBillAmount);
+                .toString()
+                .split('.')[0];
+            print('totalBillAmountReceipt $totalBillAmount');
+            setGrandTotalBillAmount(totalBillAmount);
             totalCretitAmount =
                 (double.parse(totalCretitAmount) + double.parse(receiptAmount))
                     .toString();
@@ -213,6 +219,7 @@ class ChangeValue extends ChangeNotifier {
         receiptList.add(['N/A', '0', '0', '0', '0']);
       }
     }
+    notifyListeners();
     // print(allRecepts.length);
   }
 
@@ -250,13 +257,14 @@ class ChangeValue extends ChangeNotifier {
         monthyear = data['month'];
         date2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
 
-        String debitAmount = data['amount'].split(' ')[0];
+        String debitAmount = data['amount'].split('.')[0];
         String payableAmount = 0.toString();
         totalBillAmount = (double.parse(totalBillAmount) +
                 double.parse(debitAmount) -
                 double.parse(payableAmount))
-            .toString();
-        // setGrandTotalBillAmount(totalBillAmount);
+            .toString()
+            .split('.')[0];
+        setGrandTotalBillAmount(totalBillAmount);
         totalDebititAmount =
             (double.parse(totalDebititAmount) + double.parse(debitAmount))
                 .toString();
@@ -308,14 +316,17 @@ class ChangeValue extends ChangeNotifier {
         monthyear = data['month'];
         date2 = DateFormat('dd-MM-yyyy').format(DateTime.parse(date));
 
-        String creditAmount = data['amount'].split(' ')[0];
+        String creditAmount = data['amount'].split('.')[0];
         String payableAmount = 0.toString();
         totalBillAmount = (double.parse(totalBillAmount) +
                 double.parse(payableAmount) -
                 double.parse(creditAmount))
-            .toString();
+            .toString()
+            .split('.')[0];
 
+        print('totalBillAmountbefore - $totalBillAmount');
         setGrandTotalBillAmount(totalBillAmount);
+        print('totalBillAmountafter - $totalBillAmount');
 
         totalCretitAmount =
             (double.parse(totalCretitAmount) + double.parse(creditAmount))
