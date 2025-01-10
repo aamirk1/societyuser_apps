@@ -93,19 +93,19 @@ class ChangeValue extends ChangeNotifier {
             allDataWithBill.add(data);
 
             String billAmount = data['6_Bill Amount'].split('.')[0];
-
-            // String payableAmount = data['9_Payable'].split('.')[0];
+            print('provider amunt $billAmount');
+            // String payableAmount = data['9_Payable'].split(' ')[0];
             String payableAmount = 0.toString();
-            totalBillAmount = (double.parse(totalBillAmount) +
-                    double.parse(billAmount) -
-                    double.parse(payableAmount))
+            totalBillAmount = (double.parse(billAmount) -
+                    double.parse(payableAmount) +
+                    double.parse(totalBillAmount))
                 .toString()
                 .split('.')[0];
-            print('totalBillAmountBilll $totalBillAmount');
+            setGrandTotalBillAmount(totalBillAmount);
+
             totalDebititAmount =
                 (double.parse(totalDebititAmount) + double.parse(billAmount))
                     .toString();
-            // print('totalDebititAmount111 $totalDebititAmount');
 
             row.add(data['1_Bill Date'] ?? 'N/A');
             row.add(data['5_Bill No'] ?? '0');
@@ -133,7 +133,6 @@ class ChangeValue extends ChangeNotifier {
       }
     }
     alldata(allBillData);
-    notifyListeners();
   }
 
   Future<void> alldata(Map<String, dynamic> map) async {
@@ -155,7 +154,6 @@ class ChangeValue extends ChangeNotifier {
   }
 
   Future<void> getReceipt(String societyname, String flatno) async {
-    // print('here $totalBillAmount');
     receiptList.clear();
     isLoading = true;
     phoneNum = await _splashService.getPhoneNum();
@@ -185,15 +183,13 @@ class ChangeValue extends ChangeNotifier {
             allDataWithReceipt.add(data);
 
             String receiptAmount = data['5_Amount'].split('.')[0];
-
-            // String payableAmount = data['8_Payable'].split('.')[0];
+            // String payableAmount = data['8_Payable'].split(' ')[0];
             String payableAmount = 0.toString();
             totalBillAmount = (double.parse(totalBillAmount) +
                     double.parse(payableAmount) -
                     double.parse(receiptAmount))
                 .toString()
                 .split('.')[0];
-            print('totalBillAmountReceipt $totalBillAmount');
             setGrandTotalBillAmount(totalBillAmount);
             totalCretitAmount =
                 (double.parse(totalCretitAmount) + double.parse(receiptAmount))
@@ -219,8 +215,6 @@ class ChangeValue extends ChangeNotifier {
         receiptList.add(['N/A', '0', '0', '0', '0']);
       }
     }
-    notifyListeners();
-    // print(allRecepts.length);
   }
 
   Future<void> debitNoteData(
@@ -260,15 +254,16 @@ class ChangeValue extends ChangeNotifier {
         String debitAmount = data['amount'].split('.')[0];
         String payableAmount = 0.toString();
         totalBillAmount = (double.parse(totalBillAmount) +
-                double.parse(debitAmount) -
+                double.parse(debitAmount ?? '0') -
                 double.parse(payableAmount))
             .toString()
             .split('.')[0];
         setGrandTotalBillAmount(totalBillAmount);
+
         totalDebititAmount =
             (double.parse(totalDebititAmount) + double.parse(debitAmount))
                 .toString();
-        // print('totalDebititAmount22 - $totalDebititAmount');
+
         singleRow.add(date2);
         singleRow.add(particulars);
         singleRow.add(debitAmount);
@@ -279,7 +274,6 @@ class ChangeValue extends ChangeNotifier {
         debitList.add(singleRow);
       }
     }
-    // print('debitList - $debitList');
   }
 
   Future<void> creditNoteData(
@@ -320,13 +314,11 @@ class ChangeValue extends ChangeNotifier {
         String payableAmount = 0.toString();
         totalBillAmount = (double.parse(totalBillAmount) +
                 double.parse(payableAmount) -
-                double.parse(creditAmount))
+                double.parse(creditAmount ?? '0'))
             .toString()
             .split('.')[0];
 
-        print('totalBillAmountbefore - $totalBillAmount');
         setGrandTotalBillAmount(totalBillAmount);
-        print('totalBillAmountafter - $totalBillAmount');
 
         totalCretitAmount =
             (double.parse(totalCretitAmount) + double.parse(creditAmount))
@@ -348,7 +340,8 @@ class ChangeValue extends ChangeNotifier {
         creditList.add(['N/A', 'N/A', 'N/A', 'N/A', 'N/A']);
       }
     }
-    notifyListeners();
+    totalBillAmount = '0';
+    print('totalBillAmount11 ${totalBillAmount}');
   }
 
   Future<void> mergeAllList() async {
@@ -367,11 +360,6 @@ class ChangeValue extends ChangeNotifier {
     }
 
     rowList = listOfRows;
-
-    print('provider roww - ${rowList}');
-
-    print(listOfRows);
-    notifyListeners();
   }
 
   Future<void> fetchData(

@@ -377,6 +377,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 .whenComplete(() async {
                                               isflatnoSelected = true;
                                               storeFcmId();
+                                              provider
+                                                  .setGrandTotalBillAmount('0');
                                               await provider
                                                   .fetchData(
                                                       selectedSocietyName!,
