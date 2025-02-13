@@ -362,31 +362,48 @@ class _apply_nocState extends State<apply_noc> {
     final provider = Provider.of<AllNocProvider>(context, listen: false);
     try {
       // Create a new document in the "users" collection
+      // await firestore
+      // .collection('nocApplications')
+      // .doc(widget.societyName)
+      // .collection('flatno')
+      // .doc(widget.flatno)
+      // .collection('typeofNoc')
+      // .doc(nocType)
+      // .collection('dateOfNoc')
+      // .doc(date2)
+      // .set({'nocType': nocType, 'text': text, 'fcmId': widget.fcmId});
+
       await firestore
-          .collection('nocApplications')
+          .collection('application')
           .doc(widget.societyName)
           .collection('flatno')
           .doc(widget.flatno)
-          .collection('typeofNoc')
+          .collection('applicationType')
           .doc(nocType)
-          .collection('dateOfNoc')
+          .collection('dateOfApplication')
           .doc(date2)
-          .set({'nocType': nocType, 'text': text, 'fcmId': widget.fcmId});
+          .set({
+        'dateOfApplication': date2,
+        'flatno': widget.flatno,
+        'applicationType': nocType,
+        'text': text,
+        'fcmId': widget.fcmId
+      });
       await firestore
-          .collection('nocApplications')
+          .collection('application')
           .doc(widget.societyName)
           .collection('flatno')
           .doc(widget.flatno)
           .set({"flatno": widget.flatno});
 
       await firestore
-          .collection('nocApplications')
+          .collection('application')
           .doc(widget.societyName)
           .collection('flatno')
           .doc(widget.flatno)
-          .collection('typeofNoc')
+          .collection('applicationType')
           .doc(nocType)
-          .set({"typeofNoc": nocType});
+          .set({"applicationType": nocType});
 
       provider.addSingleList({'nocType': nocType});
 

@@ -181,13 +181,13 @@ class _ViewNocState extends State<ViewNoc> {
     provider.setBuilderList([]);
     try {
       DocumentSnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('nocApplications')
+          .collection('application')
           .doc(societyName)
           .collection('flatno')
           .doc(flatNo)
-          .collection('typeofNoc')
+          .collection('applicationType')
           .doc(nocType)
-          .collection('dateOfNoc')
+          .collection('dateOfApplication')
           .doc(date)
           .get();
       if (querySnapshot.data() != null) {

@@ -150,11 +150,11 @@ class _ViewGatePassState extends State<ViewGatePass> {
   Future<void> getGatePass(
       String selectedSociety, String flatNo, String gatePassType) async {
     DocumentSnapshot gatepass = await FirebaseFirestore.instance
-        .collection('gatePassApplications')
+        .collection('application')
         .doc(selectedSociety)
         .collection('flatno')
         .doc(flatNo)
-        .collection('gatePassType')
+        .collection('applicationType')
         .doc(gatePassType)
         .get();
 

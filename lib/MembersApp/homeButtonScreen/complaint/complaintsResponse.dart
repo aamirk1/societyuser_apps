@@ -107,13 +107,13 @@ class _ViewComplaintsState extends State<ViewComplaints> {
     provider.setBuilderList([]);
     try {
       DocumentSnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('complaints')
+          .collection('application')
           .doc(widget.society)
           .collection('flatno')
           .doc(widget.flatNo)
-          .collection('typeofcomplaints')
+          .collection('applicationType')
           .doc(complaintsType)
-          .collection('dateOfComplaint')
+          .collection('dateOfApplication')
           .doc(widget.date)
           .get();
       if (querySnapshot.data() != null) {

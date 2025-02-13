@@ -368,8 +368,7 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
                               controller.clear();
                               complaintstypeController.clear();
                               complaintstypeController.text = '';
-                              Navigator.pop(context);
-                              Navigator.pop(context);
+                              // Navigator.pop(context);
                             });
                           },
                           child: const Text(
@@ -390,40 +389,64 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
   }
 
   Future<void> storeUserData(
-      BuildContext context, String complaintsType, String text) async {
+      BuildContext context, String applicationType, String text) async {
     final provider = Provider.of<AllComplaintProvider>(context, listen: false);
     try {
       // Create a new document in the "users" collection
+      // await firestore
+      //     .collection('complaints')
+      //     .doc(widget.societyName)
+      //     .collection('flatno')
+      //     .doc(widget.flatno)
+      //     .collection('typeofcomplaints')
+      //     .doc(complaintsType)
+      //     .collection('dateOfComplaint')
+      //     .doc(date2)
+      //     .set({
+      //   'complaintsType': complaintsType,
+      //   'text': text,
+      //   'fcmId': widget.fcmId
+      // });
+
       await firestore
-          .collection('complaints')
+          .collection('application')
           .doc(widget.societyName)
           .collection('flatno')
           .doc(widget.flatno)
-          .collection('typeofcomplaints')
-          .doc(complaintsType)
-          .collection('dateOfComplaint')
+          .collection('applicationType')
+          .doc(applicationType)
+          .collection('dateOfApplication')
           .doc(date2)
           .set({
-        'complaintsType': complaintsType,
+        'dateOfApplication': date2,
+        'flatno': widget.flatno,
+        'applicationType': applicationType,
         'text': text,
         'fcmId': widget.fcmId
       });
 
       await firestore
-          .collection('complaints')
+          .collection('application')
           .doc(widget.societyName)
           .collection('flatno')
           .doc(widget.flatno)
           .set({"flatno": widget.flatno});
 
       await firestore
-          .collection('complaints')
+          .collection('application')
           .doc(widget.societyName)
           .collection('flatno')
           .doc(widget.flatno)
-          .collection('typeofcomplaints')
-          .doc(complaintsType)
-          .set({"typeofcomplaints": complaintsType});
+          .collection('applicationType')
+          .doc(applicationType)
+          .set({"applicationType": applicationType});
+
+      // await firestore
+      //     .collection('application')
+      //     .doc(widget.societyName)
+      //     .collection('flatno')
+      //     .doc(widget.flatno)
+      //     .set({"typeofcomplaints": applicationType});
 
       provider.addSingleList({"dateOfComplaint": date2});
 

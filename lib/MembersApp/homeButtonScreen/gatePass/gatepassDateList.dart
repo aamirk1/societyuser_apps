@@ -167,13 +167,13 @@ class _GatePassDateListState extends State<GatePassDateList> {
     provider.setBuilderList([]);
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('gatePassApplications')
+          .collection('application')
           .doc(societyName)
           .collection('flatno')
           .doc(widget.flatno)
-          .collection('gatePassType')
+          .collection('applicationType')
           .doc(gatePassType)
-          .collection('dateOfGatePass')
+          .collection('dateOfApplication')
           .get();
       if (querySnapshot.docs.isNotEmpty) {
         List<dynamic> tempData = querySnapshot.docs.map((e) => e.id).toList();

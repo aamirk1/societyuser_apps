@@ -195,13 +195,13 @@ class _NocDateListState extends State<NocDateList> {
     provider.setBuilderList([]);
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('nocApplications')
+          .collection('application')
           .doc(widget.societyName)
           .collection('flatno')
           .doc(widget.flatno)
-          .collection('typeofNoc')
+          .collection('applicationType')
           .doc(nocType)
-          .collection('dateOfNoc')
+          .collection('dateOfApplication')
           .get();
       if (querySnapshot.docs.isNotEmpty) {
         List<dynamic> tempData = querySnapshot.docs.map((e) => e.id).toList();

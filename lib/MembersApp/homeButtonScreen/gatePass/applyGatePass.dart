@@ -126,37 +126,53 @@ class _ApplyGatePassState extends State<ApplyGatePass> {
   }
 
   void storeUserData(
-      String gatePassType, String text, String date, String fcmId) async {
+      String applicationType, String text, String date, String fcmId) async {
     final provider = Provider.of<AllGatePassProvider>(context, listen: false);
     try {
       // Create a new document in the "users" collection
+      // await firestore
+      //     .collection('gatePassApplications')
+      //     .doc(widget.societyName)
+      //     .collection('flatno')
+      //     .doc(widget.flatno)
+      //     .collection('gatePassType')
+      //     .doc(applicationType)
+      //     .collection('dateOfGatePass')
+      //     .doc(date)
+      //     .set({'gatePassType': applicationType, 'text': text, 'fcmId': fcmId});
       await firestore
-          .collection('gatePassApplications')
+          .collection('application')
           .doc(widget.societyName)
           .collection('flatno')
           .doc(widget.flatno)
-          .collection('gatePassType')
-          .doc(gatePassType)
-          .collection('dateOfGatePass')
+          .collection('applicationType')
+          .doc(applicationType)
+          .collection('dateOfApplication')
           .doc(date)
-          .set({'gatePassType': gatePassType, 'text': text, 'fcmId': fcmId});
+          .set({
+        'dateOfApplication': date,
+        'flatno': widget.flatno,
+        'applicationType': applicationType,
+        'text': text,
+        'fcmId': widget.fcmId
+      });
       await firestore
-          .collection('gatePassApplications')
+          .collection('application')
           .doc(widget.societyName)
           .collection('flatno')
           .doc(widget.flatno)
-          .collection('gatePassType')
-          .doc(gatePassType)
-          .set({"gatePassType": gatePassType});
+          .collection('applicationType')
+          .doc(applicationType)
+          .set({"applicationType": applicationType});
       await firestore
-          .collection('gatePassApplications')
+          .collection('application')
           .doc(widget.societyName)
           .collection('flatno')
           .doc(widget.flatno)
           .set({"flatno": widget.flatno});
 
       provider.addSingleList({
-        'gatePassType': gatePassType,
+        'applicationType': applicationType,
         'text': text,
       });
 

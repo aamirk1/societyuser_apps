@@ -185,18 +185,18 @@ class _ComplaintDateListState extends State<ComplaintDateList> {
   }
 
 
-  Future<void> fetchData(String complaintsType) async {
+  Future<void> fetchData(String applicationType) async {
     final provider = Provider.of<AllComplaintProvider>(context, listen: false);
     provider.setBuilderList([]);
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('complaints')
+          .collection('application')
           .doc(widget.societyName)
           .collection('flatno')
           .doc(widget.flatno)
-          .collection('typeofcomplaints')
-          .doc(complaintsType)
-          .collection('dateOfComplaint')
+          .collection('applicationType')
+          .doc(applicationType)
+          .collection('dateOfApplication')
           .get();
       if (querySnapshot.docs.isNotEmpty) {
         List<dynamic> tempData = querySnapshot.docs.map((e) => e.id).toList();
