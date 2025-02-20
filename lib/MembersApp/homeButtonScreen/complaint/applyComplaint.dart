@@ -19,16 +19,16 @@ class ApplyComplaints extends StatefulWidget {
   State<ApplyComplaints> createState() => _ApplyComplaintsState();
 
   List<String> items = [
-    'House Keeping Complaint',
-    'Security Issues',
+    'House Keeping Complaint Issue',
+    'Security Issue',
     'Parking Issue',
     'Admin Issue',
     'Accounts Issue',
-    'Vendor Complaints',
-    'Water Related',
-    'Leackage Related',
-    'Pet Animals Related',
-    'Others',
+    'Vendor Complaint Issue',
+    'Water Related Issue',
+    'Leackage Related Issue',
+    'Pet Animals Related Issue',
+    'Others Issue',
   ];
   List<String> application = [
     'House Keeping Complaint By Member',

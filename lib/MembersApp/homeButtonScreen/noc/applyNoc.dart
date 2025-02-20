@@ -24,8 +24,8 @@ class apply_noc extends StatefulWidget {
     'ELECTRIC METER NOC',
     'PASSPORT NOC',
     'RENOVATION NOC',
-    'NOC FOR GIFT DEED',
-    'BANK',
+    'NOC FOR GIFT DEED NOC',
+    'BANK NOC',
   ];
   List<String> application = [
     'Sale Noc  Application By Member',
