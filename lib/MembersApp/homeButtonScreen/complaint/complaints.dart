@@ -30,16 +30,16 @@ class _ComplaintsState extends State<Complaints> {
   }
 
   List<String> complaintsTypeList = [
-    'House Keeping Complaint',
-    'Security Issues',
+    'House Keeping Complaint Issue',
+    'Security Issue',
     'Parking Issue',
     'Admin Issue',
     'Accounts Issue',
-    'Vendor Complaints',
-    'Water Related',
-    'Leackage Related',
-    'Pet Animals Related',
-    'Others'
+    'Vendor Complaint Issue',
+    'Water Related Issue',
+    'Leackage Related Issue',
+    'Pet Animals Related Issue',
+    'Others Issue'
   ];
   String fcmId = '';
   bool isLoading = true;

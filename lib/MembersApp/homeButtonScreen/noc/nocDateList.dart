@@ -141,7 +141,9 @@ class _NocDateListState extends State<NocDateList> {
                                       elevation: 5,
                                       child: ListTile(
                                         title: Text(
-                                          NocDateList[index].toString(),
+                                          NocDateList[index]
+                                                  ['dateOfApplication']
+                                              .toString(),
                                         ),
                                         onTap: () {
                                           Navigator.push(context,
@@ -152,8 +154,9 @@ class _NocDateListState extends State<NocDateList> {
                                               societyName: widget.societyName!,
                                               // text:nocList[index]
                                               //     ['text'],
-                                              date:
-                                                  NocDateList[index].toString(),
+                                              date: NocDateList[index]
+                                                      ['dateOfApplication']
+                                                  .toString(),
                                               flatNo: widget.flatno!,
                                             );
                                           }));
@@ -189,7 +192,6 @@ class _NocDateListState extends State<NocDateList> {
     );
   }
 
-
   Future<void> fetchData(String nocType) async {
     final provider = Provider.of<AllComplaintProvider>(context, listen: false);
     provider.setBuilderList([]);
@@ -200,13 +202,12 @@ class _NocDateListState extends State<NocDateList> {
           .collection('flatno')
           .doc(widget.flatno)
           .collection('applicationType')
-          .doc(nocType)
-          .collection('dateOfApplication')
+          .where('applicationType', isEqualTo: nocType)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
-        List<dynamic> tempData = querySnapshot.docs.map((e) => e.id).toList();
+        List<dynamic> tempData =
+            querySnapshot.docs.map((e) => e.data()).toList();
         NocDateList = tempData;
-        // print('NocDateList: $NocDateList');
         provider.setBuilderList(tempData);
       }
     } catch (e) {

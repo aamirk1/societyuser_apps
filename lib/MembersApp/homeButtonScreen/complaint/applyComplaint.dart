@@ -127,11 +127,11 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
                         setState(() {
                           complaintstypeController.text = value.toString();
                           switch (value.toString()) {
-                            case 'House Keeping Complaint':
+                            case 'House Keeping Complaint Issue':
                               _showDialog(
                                   widget.application[0], saleController);
                               break;
-                            case 'Security Issues':
+                            case 'Security Issue':
                               _showDialog(widget.application[1], gasController);
                               break;
                             case 'Parking Issue':
@@ -146,23 +146,23 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
                               _showDialog(
                                   widget.application[4], renovationController);
                               break;
-                            case 'Vendor Complaints':
+                            case 'Vendor Complaint Issue':
                               _showDialog(
                                   widget.application[5], giftController);
                               break;
-                            case 'Water Related':
+                            case 'Water Related Issue':
                               _showDialog(
                                   widget.application[6], bankController);
                               break;
-                            case 'Leackage Related':
+                            case 'Leackage Related Issue':
                               _showDialog(
                                   widget.application[7], bankController);
                               break;
-                            case 'Pet Animals Related':
+                            case 'Pet Animals Related Issue':
                               _showDialog(
                                   widget.application[8], bankController);
                               break;
-                            case 'Others':
+                            case 'Others Issue':
                               _showDialog(
                                   widget.application[9], bankController);
                               break;

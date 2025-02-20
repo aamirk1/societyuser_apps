@@ -24,7 +24,7 @@ class apply_noc extends StatefulWidget {
     'ELECTRIC METER NOC',
     'PASSPORT NOC',
     'RENOVATION NOC',
-    'NOC FOR GIFT DEED NOC',
+    'GIFT DEED NOC',
     'BANK NOC',
   ];
   List<String> application = [
@@ -132,11 +132,11 @@ class _apply_nocState extends State<apply_noc> {
                               _showDialog(
                                   widget.application[4], renovationController);
                               break;
-                            case 'NOC FOR GIFT DEED':
+                            case 'GIFT DEED NOC':
                               _showDialog(
                                   widget.application[5], giftController);
                               break;
-                            case 'BANK':
+                            case 'BANK NOC':
                               _showDialog(
                                   widget.application[6], bankController);
                               break;

@@ -125,7 +125,10 @@ class _GatePassDateListState extends State<GatePassDateList> {
                       height: 20,
                     ),
                     GatePassDateList.isEmpty
-                        ? const Text('No Gate Pass Date Found')
+                        ? const Text(
+                            'No Gate Pass Found',
+                            style: TextStyle(fontSize: 16, color: Colors.red),
+                          )
                         : SizedBox(
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height * 0.69,
@@ -138,7 +141,9 @@ class _GatePassDateListState extends State<GatePassDateList> {
                                       elevation: 5,
                                       child: ListTile(
                                         title: Text(
-                                          GatePassDateList[index].toString(),
+                                          GatePassDateList[index]
+                                                  ['dateOfApplication']
+                                              .toString(),
                                         ),
                                         onTap: () {
                                           Navigator.push(context,
@@ -172,13 +177,13 @@ class _GatePassDateListState extends State<GatePassDateList> {
           .collection('flatno')
           .doc(widget.flatno)
           .collection('applicationType')
-          .doc(gatePassType)
-          .collection('dateOfApplication')
+          .where('applicationType', isEqualTo: gatePassType)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
-        List<dynamic> tempData = querySnapshot.docs.map((e) => e.id).toList();
+        List<dynamic> tempData =
+            querySnapshot.docs.map((e) => e.data()).toList();
         GatePassDateList = tempData;
-        // print('GatePassDateList:---- $GatePassDateList');
+        print('GatePassDateList:---- $GatePassDateList');
         provider.setBuilderList(tempData);
       }
     } catch (e) {

@@ -124,7 +124,10 @@ class _ComplaintDateListState extends State<ComplaintDateList> {
                       height: 20,
                     ),
                     ComplaintDateList.isEmpty
-                        ? const Text('No Complaints')
+                        ? const Text(
+                            'No Complaints',
+                            style: TextStyle(fontSize: 16, color: Colors.red),
+                          )
                         : SizedBox(
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height * 0.69,
@@ -137,7 +140,9 @@ class _ComplaintDateListState extends State<ComplaintDateList> {
                                       elevation: 5,
                                       child: ListTile(
                                         title: Text(
-                                          ComplaintDateList[index].toString(),
+                                          ComplaintDateList[index]
+                                                  ['dateOfApplication']
+                                              .toString(),
                                         ),
                                         onTap: () {
                                           Navigator.push(context,
@@ -148,6 +153,7 @@ class _ComplaintDateListState extends State<ComplaintDateList> {
                                                   widget.complaintsType,
                                               society: widget.societyName,
                                               date: ComplaintDateList[index]
+                                                      ['dateOfApplication']
                                                   .toString(),
                                               flatNo: widget.flatno,
                                             );
@@ -184,7 +190,6 @@ class _ComplaintDateListState extends State<ComplaintDateList> {
     );
   }
 
-
   Future<void> fetchData(String applicationType) async {
     final provider = Provider.of<AllComplaintProvider>(context, listen: false);
     provider.setBuilderList([]);
@@ -195,11 +200,11 @@ class _ComplaintDateListState extends State<ComplaintDateList> {
           .collection('flatno')
           .doc(widget.flatno)
           .collection('applicationType')
-          .doc(applicationType)
-          .collection('dateOfApplication')
+          .where('applicationType', isEqualTo: applicationType)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
-        List<dynamic> tempData = querySnapshot.docs.map((e) => e.id).toList();
+        List<dynamic> tempData =
+            querySnapshot.docs.map((e) => e.data()).toList();
         ComplaintDateList = tempData;
         provider.setBuilderList(tempData);
       }

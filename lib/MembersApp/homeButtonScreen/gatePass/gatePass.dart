@@ -10,7 +10,12 @@ import 'package:societyuser_app/MembersApp/provider/AllGatePassProvider.dart';
 
 // ignore: camel_case_types, must_be_immutable
 class GatePass extends StatefulWidget {
-  GatePass({super.key, this.flatno, this.societyName, this.username, required this.mobile});
+  GatePass(
+      {super.key,
+      this.flatno,
+      this.societyName,
+      this.username,
+      required this.mobile});
   String? flatno;
   String? societyName;
   String? username;
@@ -126,14 +131,14 @@ class _GatePassState extends State<GatePass> {
                       return value.gatePassList.isEmpty
                           ? Center(
                               child: Container(
-                              width: MediaQuery.of(context).size.width* 98,
+                              width: MediaQuery.of(context).size.width * 98,
                               height: MediaQuery.of(context).size.height / 2,
                               alignment: Alignment.center,
                               child: const Center(
                                 child: Text(
                                   'No Gate Pass Available.',
-                                  style:
-                                      TextStyle(fontSize: 20, color: Colors.red),
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.red),
                                 ),
                               ),
                             ))
@@ -172,9 +177,9 @@ class _GatePassState extends State<GatePass> {
                                                 builder: (context) {
                                                   return GatePassDateList(
                                                     username: widget.username,
-                                                    gatePassType: value
-                                                            .gatePassList[index]
-                                                        ['gatePassType'],
+                                                    gatePassType:
+                                                        checkResult[index]
+                                                            ['applicationType'],
                                                     societyName:
                                                         widget.societyName!,
                                                     flatno: widget.flatno,
@@ -187,8 +192,8 @@ class _GatePassState extends State<GatePass> {
                                             ).whenComplete(() => fetchData());
                                           },
                                           child: Text(
-                                            value.gatePassList[index]
-                                                    ['gatePassType']
+                                            checkResult[index]
+                                                    ['applicationType']
                                                 .toString(),
                                             style: TextStyle(
                                                 color: buttonTextColor,
@@ -230,25 +235,34 @@ class _GatePassState extends State<GatePass> {
   Future<void> fetchData() async {
     final provider = Provider.of<AllGatePassProvider>(context, listen: false);
     provider.setBuilderList([]);
+
     try {
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('gatePassApplications')
+          .collection('application')
           .doc(widget.societyName)
           .collection('flatno')
           .doc(widget.flatno)
-          .collection('gatePassType')
+          .collection('applicationType')
+          .where('applicationType', isNotEqualTo: null)
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {
-        List<dynamic> tempData =
-            querySnapshot.docs.map((e) => e.data()).toList();
+        // Ensure that e.data() is not null before processing
+        List<Map<String, dynamic>> tempData = querySnapshot.docs
+            .map((e) => e.data() as Map<String, dynamic>?)
+            .where((doc) => doc != null && doc.containsKey('applicationType'))
+            .map((doc) => doc!) // Unwrap null values safely
+            .where((doc) {
+          String type = doc['applicationType'];
+          return !(type.endsWith('NOC') || type.endsWith('Issue'));
+        }).toList();
+
         provider.setBuilderList(tempData);
 
         checkResult = tempData;
         // print('checkResult: $checkResult');
       }
     } catch (e) {
-      // ignore: avoid_print
       print('Error fetching data: $e');
     }
   }

@@ -114,7 +114,8 @@ class _ViewNocState extends State<ViewNoc> {
                                     onPressed: () {
                                       downloadPdf();
                                     },
-                                    child: const Text('Download'),
+                                    child: const Text('Download',
+                                        style: TextStyle(color: Colors.white)),
                                   )
                                 : ElevatedButton(
                                     style: ButtonStyle(
@@ -125,7 +126,8 @@ class _ViewNocState extends State<ViewNoc> {
                                     onPressed: () {
                                       alertbox();
                                     },
-                                    child: const Text('Pending'),
+                                    child: const Text('Pending',
+                                        style: TextStyle(color: Colors.white)),
                                   )
                           ],
                         ),
