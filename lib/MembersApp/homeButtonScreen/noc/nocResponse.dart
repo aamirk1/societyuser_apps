@@ -187,8 +187,8 @@ class _ViewNocState extends State<ViewNoc> {
           .doc(flatNo)
           .collection('applicationType')
           .doc(nocType)
-          .collection('dateOfApplication')
-          .doc(date)
+          // .collection('dateOfApplication')
+          // .doc(date)
           .get();
       if (querySnapshot.data() != null) {
         Map<String, dynamic> tempData =

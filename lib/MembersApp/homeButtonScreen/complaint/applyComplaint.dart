@@ -415,8 +415,8 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
           .doc(widget.flatno)
           .collection('applicationType')
           .doc(applicationType)
-          .collection('dateOfApplication')
-          .doc(date2)
+          // .collection('dateOfApplication')
+          // .doc(date2)
           .set({
         'dateOfApplication': date2,
         'flatno': widget.flatno,
@@ -432,14 +432,14 @@ class _ApplyComplaintsState extends State<ApplyComplaints> {
           .doc(widget.flatno)
           .set({"flatno": widget.flatno});
 
-      await firestore
-          .collection('application')
-          .doc(widget.societyName)
-          .collection('flatno')
-          .doc(widget.flatno)
-          .collection('applicationType')
-          .doc(applicationType)
-          .set({"applicationType": applicationType});
+      // await firestore
+      //     .collection('application')
+      //     .doc(widget.societyName)
+      //     .collection('flatno')
+      //     .doc(widget.flatno)
+      //     .collection('applicationType')
+      //     .doc(applicationType)
+      //     .set({"applicationType": applicationType});
 
       // await firestore
       //     .collection('application')

@@ -380,8 +380,8 @@ class _apply_nocState extends State<apply_noc> {
           .doc(widget.flatno)
           .collection('applicationType')
           .doc(nocType)
-          .collection('dateOfApplication')
-          .doc(date2)
+          // .collection('dateOfApplication')
+          // .doc(date2)
           .set({
         'dateOfApplication': date2,
         'flatno': widget.flatno,
@@ -396,14 +396,14 @@ class _apply_nocState extends State<apply_noc> {
           .doc(widget.flatno)
           .set({"flatno": widget.flatno});
 
-      await firestore
-          .collection('application')
-          .doc(widget.societyName)
-          .collection('flatno')
-          .doc(widget.flatno)
-          .collection('applicationType')
-          .doc(nocType)
-          .set({"applicationType": nocType});
+      // await firestore
+      //     .collection('application')
+      //     .doc(widget.societyName)
+      //     .collection('flatno')
+      //     .doc(widget.flatno)
+      //     .collection('applicationType')
+      //     .doc(nocType)
+      //     .set({"applicationType": nocType});
 
       provider.addSingleList({'nocType': nocType});
 

@@ -113,8 +113,8 @@ class _ViewComplaintsState extends State<ViewComplaints> {
           .doc(widget.flatNo)
           .collection('applicationType')
           .doc(complaintsType)
-          .collection('dateOfApplication')
-          .doc(widget.date)
+          // .collection('dateOfApplication')
+          // .doc(widget.date)
           .get();
       if (querySnapshot.data() != null) {
         Map<String, dynamic> tempData =

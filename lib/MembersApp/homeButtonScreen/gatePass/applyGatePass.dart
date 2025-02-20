@@ -147,8 +147,8 @@ class _ApplyGatePassState extends State<ApplyGatePass> {
           .doc(widget.flatno)
           .collection('applicationType')
           .doc(applicationType)
-          .collection('dateOfApplication')
-          .doc(date)
+          // .collection('dateOfApplication')
+          // .doc(date)
           .set({
         'dateOfApplication': date,
         'flatno': widget.flatno,
@@ -156,14 +156,14 @@ class _ApplyGatePassState extends State<ApplyGatePass> {
         'text': text,
         'fcmId': widget.fcmId
       });
-      await firestore
-          .collection('application')
-          .doc(widget.societyName)
-          .collection('flatno')
-          .doc(widget.flatno)
-          .collection('applicationType')
-          .doc(applicationType)
-          .set({"applicationType": applicationType});
+      // await firestore
+      //     .collection('application')
+      //     .doc(widget.societyName)
+      //     .collection('flatno')
+      //     .doc(widget.flatno)
+      //     .collection('applicationType')
+      //     .doc(applicationType)
+      //     .set({"applicationType": applicationType});
       await firestore
           .collection('application')
           .doc(widget.societyName)
